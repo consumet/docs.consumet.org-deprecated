@@ -1,0 +1,19 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Consumet",
+    "summary": "Consumet is a search engine api",
+    "description": "Consumet is a search engine api that allows you to get acurite information on various entertainment mediums, e.g, books, anime, comics, etc.",
+    "contact": {
+      "name": "Consumet",
+      "url": "https://github.com/consumet/api",
+      "email": "TODO"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://mit-license.org/"
+    },
+    "version": "0.0.1",
+    "servers": [{"url": "https://api.consumet.org"}]
+  }
+}
