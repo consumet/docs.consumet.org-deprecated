@@ -13,7 +13,198 @@
       "name": "MIT",
       "url": "https://mit-license.org/"
     },
-    "version": "0.0.1",
-    "servers": [{"url": "https://api.consumet.org"}]
+    "version": "0.0.1"
+  },
+  "servers": [{"url": "http://api.consumet.org"}],
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": false,
+            "readOnly": true
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "publisher": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "year": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "edition": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "volume": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "series": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "isbn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "image": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "link": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        }
+      },
+      "Hashes": {
+        "type": "object",
+        "properties": {
+          "AICH": {
+            "type": "string",
+            "nullable": false,
+            "readOnly": true
+          },
+          "CRC32": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "eDonkey": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "MD5": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "SHA1": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "SHA256": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "TTH": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        }
+      },
+      "LibgenBook": {
+        "allOf": [{
+            "$ref": "#/components/schemas/Book"
+          }],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "readOnly": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "format": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "size": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "pages": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "tableOfContents": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "topic": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "hashes": {
+            "$ref": "#/components/schemas/Hashes"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/books/s/{bookTitle}": {
+      "summary": "Get book list",
+      "get": {
+        "tags": ["books"],
+        "summary": "Get book list",
+        "operationId": "getBookList",
+        "parameters": [
+          {
+            "name": "{bookTitle}",
+            "in": "path",
+            "description": "the book's title.",
+            "required": "true",
+            "style": "path - simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LibgenBook"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
+
 }

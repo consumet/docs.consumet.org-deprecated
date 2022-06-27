@@ -1,8 +1,9 @@
 import { RedocStandalone } from 'redoc';
+import openAPI from './data/openapi.json'
 
 function App() {
   return (
-    <RedocStandalone spec={{
+    <RedocStandalone spec={openAPI/*{
       "openapi": "3.0.1",
       "info": {
         "title": "TheCodeBuzz-Service",
@@ -72,7 +73,7 @@ function App() {
           "bearerAuth": []
         }
       ]
-    }} />
+    }*/} />
   );
 }
 
