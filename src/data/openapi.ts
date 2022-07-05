@@ -22,7 +22,11 @@ import {
   MangaDexSearchResultSchema,
   MangaDexSearchSchema,
   MangaDexInfoSchema,
+  getComicsResSchema,
+  getComicsSchema,
 } from './schemas';
+
+import { OpenAPIV3, OpenAPIV3_1 } from 'openapi-types';
 
 const openapi = {
   openapi: '3.1.0',
@@ -51,6 +55,8 @@ Consumet is a search engine api that allows you to get acurite information on va
       Book: bookSchema,
       Hashes: hashesSchema,
       LibgenBook: libgenBookSchema,
+      GetComicsRes: getComicsResSchema,
+      GetComics: getComicsSchema,
       GogoanimeAnimeSearch: GogoanimeSearchSchema,
       GogoanimeSearchResult: GogoanimeSearchResultSchema,
       GogoanimeInfo: GogoanimeInfoSchema,
@@ -75,6 +81,7 @@ Consumet is a search engine api that allows you to get acurite information on va
   },
   tags: [
     { name: 'libgen', description: 'Everything about libgen provider' },
+    { name: 'getComics', description: 'Everything about getComics provider' },
     {
       name: 'gogoanime',
       description: 'Everything about gogoanime provider',
@@ -96,6 +103,10 @@ Consumet is a search engine api that allows you to get acurite information on va
       tags: ['libgen'],
     },
     {
+      name: 'comics',
+      tags: ['getComics'],
+    },
+    {
       name: 'manga',
       tags: ['mangadex'],
     },
@@ -109,17 +120,128 @@ Consumet is a search engine api that allows you to get acurite information on va
     },
   ],
   paths: {
+    '/comics/s/{comicTitle}': {
+      summary: 'Get search comic download link w/ information',
+      get: {
+        tags: ['getComics'],
+        summary: 'Get search comic download link w/ information',
+        parameters: [
+          {
+            name: '{comicTitle}',
+            in: 'path',
+            description: "the comics's title.",
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'appFlication/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/GetComicsRes',
+                  },
+                },
+              },
+            },
+          },
+        },
+        'x-codeSamples': [
+          {
+            lang: 'curl',
+            source: "curl 'http://api.consumet.org/comics/s/batman'",
+          },
+          {
+            lang: 'typescript',
+            source: `
+import axios from 'axois'       
+
+const get = axois.get;
+
+const run = async () => {
+  const { data } = get('http://api.consumet.org/comics/s/batman');
+  console.log(data)
+}
+
+run();
+`,
+          },
+        ],
+      },
+    },
+    '/comics/getComics/s/{comicTitle}': {
+      summary: 'Get search comic download link w/ information',
+      get: {
+        tags: ['getComics'],
+        summary: 'Get search comic download link w/ information',
+        parameters: [
+          {
+            name: '{comicTitle}',
+            in: 'path',
+            description: "the comics's title.",
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'appFlication/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/GetComicsRes',
+                  },
+                },
+              },
+            },
+          },
+        },
+        'x-codeSamples': [
+          {
+            lang: 'curl',
+            source: "curl 'http://api.consumet.org/comics/getComics/s/batman'",
+          },
+          {
+            lang: 'typescript',
+            source: `
+import axios from 'axois'       
+
+const get = axois.get;
+
+const run = async () => {
+  const { data } = get('http://api.consumet.org/comics/getComics/s/batman');
+  console.log(data)
+}
+
+run();
+`,
+          },
+        ],
+      },
+    },
+
     '/books/s/{bookTitle}': {
-      summary: 'Get book list',
+      summary: 'Search For a Book',
       get: {
         tags: ['libgen'],
-        summary: 'Get book list',
+        summary: 'Search For a Book',
         operationId: 'getBookList',
         parameters: [
           {
             name: '{bookTitle}',
             in: 'path',
-            description: "the book's title.",
+            description: 'The title of the book you want to search',
             required: true,
             style: 'path - simple',
             schema: {
@@ -142,6 +264,83 @@ Consumet is a search engine api that allows you to get acurite information on va
             },
           },
         },
+        'x-codeSamples': [
+          {
+            lang: 'curl',
+            source: `curl 'http://api.consumet.org/books/s/batman'`,
+          },
+          {
+            lang: 'javascript',
+            source: `
+import axios from 'axois'       
+
+const get = axois.get;
+
+const run = async () => {
+  const { data } = get('http://api.consumet.org/books/s/batman');
+  console.log(data)
+}
+
+run();
+`,
+          },
+        ],
+      },
+    },
+    '/books/libgen/s/{bookTitle}': {
+      summary: 'Search For a Book',
+      get: {
+        tags: ['libgen'],
+        summary: 'Search For a Book',
+        operationId: 'getBookListLibgen',
+        parameters: [
+          {
+            name: '{bookTitle}',
+            in: 'path',
+            description: 'The title of the book you want to search',
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              json: {
+                schema: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/LibgenBook',
+                  },
+                },
+              },
+            },
+          },
+        },
+        'x-codeSamples': [
+          {
+            lang: 'curl',
+            source: `curl 'http://api.consumet.org/books/libgen/s/batman'`,
+          },
+          {
+            lang: 'typescript',
+            source: `
+import axios from 'axois'       
+
+const get = axois.get;
+
+const run = async () => {
+  const { data } = get('http://api.consumet.org/books/libgen/s/batman');
+  console.log(data)
+}
+
+run();
+`,
+          },
+        ],
       },
     },
     '/anime/gogoanime/{animeTitle}': {
