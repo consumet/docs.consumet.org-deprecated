@@ -12,6 +12,16 @@ import {
   FlixHQSearchResultSchema,
   FlixHQSearchSchema,
   FlixHQEpisodeSourceSchema,
+  ReadLightNovelsChapterContentSchema,
+  ReadLightNovelsChapterSchema,
+  ReadLightNovelsSearchResultSchema,
+  ReadLightNovelsSearchSchema,
+  ReadLightNovelsInfoSchema,
+  MangaDexChapterPageSchema,
+  MangaDexChapterSchema,
+  MangaDexSearchResultSchema,
+  MangaDexSearchSchema,
+  MangaDexInfoSchema,
   getComicsResSchema,
   getComicsSchema,
 } from './schemas';
@@ -22,8 +32,9 @@ const openapi = {
   openapi: '3.1.0',
   info: {
     title: 'Consumet',
-    description:
-      'Consumet is a search engine api that allows you to get acurite information on various entertainment mediums, e.g, books, anime, comics, etc.',
+    description: `
+Consumet is a search engine api that allows you to get acurite information on various entertainment mediums, e.g, books, anime, comics, etc.
+`,
     contact: {
       name: 'Consumet',
       url: 'https://github.com/consumet/api',
@@ -56,6 +67,16 @@ const openapi = {
       FlixHQInfo: FlixHQInfoSchema,
       FlixHQEpisode: FlixHQEpisodeSchema,
       FlixHQEpisodeSource: FlixHQEpisodeSourceSchema,
+      ReadLightNovelsSearch: ReadLightNovelsSearchSchema,
+      ReadLightNovelsSearchResult: ReadLightNovelsSearchResultSchema,
+      ReadLightNovelsInfo: ReadLightNovelsInfoSchema,
+      ReadLightNovelsChapter: ReadLightNovelsChapterSchema,
+      ReadLightNovelsChapterContent: ReadLightNovelsChapterContentSchema,
+      MangaDexSearch: MangaDexSearchSchema,
+      MangaDexSearchResult: MangaDexSearchResultSchema,
+      MangaDexInfo: MangaDexInfoSchema,
+      MangaDexChapter: MangaDexChapterSchema,
+      MangaDexChapterPage: MangaDexChapterPageSchema,
     },
   },
   tags: [
@@ -66,8 +87,17 @@ const openapi = {
       description: 'Everything about gogoanime provider',
     },
     { name: 'flixhq', description: 'Everything about flixhq provider' },
+    { name: 'readlightnovels', description: 'Everything about readlightnovels provider' },
+    { name: 'mangadex', description: 'Everything about mangadex provider' },
   ],
+  /**
+   * make sure to sort the tags and names by alphabetical order.
+   */
   'x-tagGroups': [
+    {
+      name: 'anime',
+      tags: ['gogoanime'],
+    },
     {
       name: 'books',
       tags: ['libgen'],
@@ -77,12 +107,16 @@ const openapi = {
       tags: ['getComics'],
     },
     {
-      name: 'anime',
-      tags: ['gogoanime'],
+      name: 'manga',
+      tags: ['mangadex'],
     },
     {
       name: 'movies',
       tags: ['flixhq'],
+    },
+    {
+      name: 'light novels',
+      tags: ['readlightnovels'],
     },
   ],
   paths: {
@@ -630,6 +664,241 @@ curl -X GET "http://api.consumet.org/movies/flixhq/Vincenzo"
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/FlixHQEpisodeSource',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/light-novels/readlightnovels/{query}': {
+      summary: 'Get light novel search',
+      get: {
+        tags: ['readlightnovels'],
+        summary: 'Get light novel search',
+        operationId: 'getLightNovelSearch',
+        parameters: [
+          {
+            name: '{query}',
+            in: 'path',
+            description: "the light novel's title.",
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/ReadLightNovelsSearch',
+                },
+              },
+            },
+          },
+        },
+        'x-codeSamples': [
+          {
+            lang: 'curl',
+            source: `
+curl -X GET "http://api.consumet.org/light-novels/readlightnovels/slime"
+              `,
+          },
+        ],
+      },
+    },
+    '/light-novels/readlightnovels/info/{id}': {
+      summary: 'Get light novel info',
+      get: {
+        tags: ['readlightnovels'],
+        summary: 'Get light novel info',
+        operationId: 'getLightNovelInfo',
+        parameters: [
+          {
+            name: '{id}',
+            in: 'path',
+            description: "the light novel's id. e.g. 'classroom of the elite'",
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/ReadLightNovelsInfo',
+                },
+              },
+            },
+          },
+        },
+        'x-codeSamples': [
+          {
+            lang: 'curl',
+            source: `
+curl -X GET "http://api.consumet.org/light-novels/readlightnovels/info/youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e"
+              `,
+          },
+        ],
+      },
+    },
+    '/light-novels/readlightnovels/read/{chapterId}': {
+      summary: 'Get light novel chapter content',
+      get: {
+        tags: ['readlightnovels'],
+        summary: 'Get light novel chapter content',
+        operationId: 'getLightNovelChapter',
+        parameters: [
+          {
+            name: '{chapterId}',
+            in: 'path',
+            description: "the light novel's chapter id.",
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/ReadLightNovelsChapterContent',
+                },
+              },
+            },
+          },
+        },
+        'x-codeSamples': [
+          {
+            lang: 'curl',
+            source: `
+curl -X GET "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter-1-intro-welcome-to-my-dream-like-school-life"
+              `,
+          },
+        ],
+      },
+    },
+    '/manga/mangadex/{query}': {
+      summary: 'Get manga search',
+      get: {
+        tags: ['mangadex'],
+        summary: 'Get manga search',
+        operationId: 'getMangaSearch',
+        parameters: [
+          {
+            name: '{query}',
+            in: 'path',
+            description: "the manga's title. e.g. 'tomodachi game'",
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/MangaDexSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/manga/mangadex/info/{id}': {
+      summary: 'Get manga info',
+      get: {
+        tags: ['mangadex'],
+        summary: 'Get manga info',
+        operationId: 'getMangaInfo',
+        parameters: [
+          {
+            name: '{id}',
+            in: 'path',
+            description: "the manga's id.",
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/MangaDexInfo',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/manga/mangadex/read/{chapterId}': {
+      summary: 'Get manga chapter pages',
+      get: {
+        tags: ['mangadex'],
+        summary: 'Get manga chapter pages',
+        operationId: 'getMangaChapterPages',
+        parameters: [
+          {
+            name: '{chapterId}',
+            in: 'path',
+            description: "the manga's chapter id.",
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    $ref: '#/components/schemas/MangaDexChapterPage',
+                  },
                 },
               },
             },
