@@ -26,14 +26,22 @@ import {
   getComicsSchema,
 } from './schemas';
 
-import { OpenAPIV3, OpenAPIV3_1 } from 'openapi-types';
-
 const openapi = {
   openapi: '3.1.0',
   info: {
     title: 'Consumet',
     description: `
 Consumet is a search engine api that allows you to get acurite information on various entertainment mediums, e.g, books, anime, comics, etc.
+
+# Introduction
+
+This API is documented in OpenAPI format and is based on [Swagger](https://swagger.io/specification/) specification. 
+The API is intended for use by a wide range of developers, and it can be consumed by a wide range of tools and programming languages.
+
+<!-- global notes -->
+### Notes:
+
+- Some \`GET\` request examples are on nodejs, and may require [axios](https://axios-http.com/docs/intro) library to be installed.
 `,
     contact: {
       name: 'Consumet',
@@ -80,15 +88,36 @@ Consumet is a search engine api that allows you to get acurite information on va
     },
   },
   tags: [
-    { name: 'libgen', description: 'Everything about libgen provider' },
-    { name: 'getComics', description: 'Everything about getComics provider' },
+    {
+      name: 'libgen',
+      description:
+        'Everything about libgen provider. This is based on [libgen.rs](https://libgen.io/) which provides a lot of information about books.',
+    },
+    {
+      name: 'getComics',
+      description:
+        'Everything about getComics provider. This provider is based on [getComics](https://getcomics.info/) which provides a lot of information about comics.',
+    },
     {
       name: 'gogoanime',
-      description: 'Everything about gogoanime provider',
+      description:
+        'Everything about gogoanime provider. This provider is based on [gogoanime](https://gogoanime.gg/). It provides a lot of information about anime.',
     },
-    { name: 'flixhq', description: 'Everything about flixhq provider' },
-    { name: 'readlightnovels', description: 'Everything about readlightnovels provider' },
-    { name: 'mangadex', description: 'Everything about mangadex provider' },
+    {
+      name: 'flixhq',
+      description:
+        'Everything about flixhq provider. This provider is based on [flixhq](https://flixhq.to/). It provides a lot of information about movies and tv shows.',
+    },
+    {
+      name: 'readlightnovels',
+      description:
+        'Everything about readlightnovels provider. This provider is based on [readlightnovels](https://readlightnovels.net/). It provides a lot of information about light novels.',
+    },
+    {
+      name: 'mangadex',
+      description:
+        'Everything about mangadex provider. This provider is based on [mangadex](https://mangadex.org/). It provides a lot of information about manga.',
+    },
   ],
   /**
    * make sure to sort the tags and names by alphabetical order.
@@ -158,7 +187,7 @@ Consumet is a search engine api that allows you to get acurite information on va
             source: "curl 'http://api.consumet.org/comics/s/batman'",
           },
           {
-            lang: 'typescript',
+            lang: 'Node.js',
             source: `
 import axios from 'axois'       
 
@@ -213,7 +242,7 @@ run();
             source: "curl 'http://api.consumet.org/comics/getComics/s/batman'",
           },
           {
-            lang: 'typescript',
+            lang: 'Node.js',
             source: `
 import axios from 'axois'       
 
@@ -270,7 +299,7 @@ run();
             source: `curl 'http://api.consumet.org/books/s/batman'`,
           },
           {
-            lang: 'javascript',
+            lang: 'Node.js',
             source: `
 import axios from 'axois'       
 
@@ -326,7 +355,7 @@ run();
             source: `curl 'http://api.consumet.org/books/libgen/s/batman'`,
           },
           {
-            lang: 'typescript',
+            lang: 'Node.js',
             source: `
 import axios from 'axois'       
 
@@ -343,7 +372,7 @@ run();
         ],
       },
     },
-    '/anime/gogoanime/{animeTitle}': {
+    '/anime/gogoanime/{query}': {
       summary: 'Get anime search',
       get: {
         tags: ['gogoanime'],
@@ -351,9 +380,9 @@ run();
         operationId: 'getAnimeSearch',
         parameters: [
           {
-            name: '{animeTitle}',
+            name: '{query}',
             in: 'path',
-            description: "the anime's title.",
+            description: 'query to search for',
             required: true,
             style: 'path - simple',
             schema: {
@@ -363,7 +392,7 @@ run();
           {
             name: 'page',
             in: 'query',
-            description: 'the page number.',
+            description: 'page number.',
             required: false,
             schema: {
               type: 'integer',
@@ -405,7 +434,7 @@ print(data)
           {
             lang: 'curl',
             source: `
-curl -X GET "http://api.consumet.org/anime/gogoanime/Naruto?page=2"
+curl "http://api.consumet.org/anime/gogoanime/Naruto?page=2"
 				`,
           },
         ],
@@ -459,7 +488,7 @@ print(data)
           {
             lang: 'curl',
             source: `
-curl -X GET "http://api.consumet.org/anime/gogoanime/info/spy-x-family"
+curl "http://api.consumet.org/anime/gogoanime/info/spy-x-family"
 `,
           },
         ],
@@ -527,7 +556,7 @@ print(data)
           {
             lang: 'curl',
             source: `
-curl -X GET "http://api.consumet.org/anime/gogoanime/watch/spy-x-family-episode-1?server=gogocdn"
+curl "http://api.consumet.org/anime/gogoanime/watch/spy-x-family-episode-1?server=gogocdn"
 				`,
           },
         ],
@@ -578,7 +607,7 @@ curl -X GET "http://api.consumet.org/anime/gogoanime/watch/spy-x-family-episode-
           {
             lang: 'curl',
             source: `
-curl -X GET "http://api.consumet.org/movies/flixhq/Vincenzo"
+curl "http://api.consumet.org/movies/flixhq/Vincenzo"
 				`,
           },
         ],
@@ -706,7 +735,7 @@ curl -X GET "http://api.consumet.org/movies/flixhq/Vincenzo"
           {
             lang: 'curl',
             source: `
-curl -X GET "http://api.consumet.org/light-novels/readlightnovels/slime"
+curl "http://api.consumet.org/light-novels/readlightnovels/slime"
               `,
           },
         ],
@@ -747,7 +776,7 @@ curl -X GET "http://api.consumet.org/light-novels/readlightnovels/slime"
           {
             lang: 'curl',
             source: `
-curl -X GET "http://api.consumet.org/light-novels/readlightnovels/info/youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e"
+curl "http://api.consumet.org/light-novels/readlightnovels/info/youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e"
               `,
           },
         ],
@@ -788,7 +817,7 @@ curl -X GET "http://api.consumet.org/light-novels/readlightnovels/info/youkoso-j
           {
             lang: 'curl',
             source: `
-curl -X GET "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter-1-intro-welcome-to-my-dream-like-school-life"
+curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter-1-intro-welcome-to-my-dream-like-school-life"
               `,
           },
         ],
