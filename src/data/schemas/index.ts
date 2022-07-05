@@ -15,7 +15,24 @@ import {
   FlixHQSearchSchema,
   FlixHQEpisodeSourceSchema,
 } from './flixhq.schema';
+import {
+  ReadLightNovelsChapterContentSchema,
+  ReadLightNovelsChapterSchema,
+  ReadLightNovelsSearchResultSchema,
+  ReadLightNovelsSearchSchema,
+  ReadLightNovelsInfoSchema,
+} from './readlightnovels.schema';
+import {
+  MangaDexChapterPageSchema,
+  MangaDexChapterSchema,
+  MangaDexSearchResultSchema,
+  MangaDexSearchSchema,
+  MangaDexInfoSchema,
+} from './mangadex.schema';
 
+/**
+ * Make sure to sort the schemas by the provider name.
+ */
 export {
   bookSchema,
   hashesSchema,
@@ -30,4 +47,14 @@ export {
   FlixHQSearchResultSchema,
   FlixHQSearchSchema,
   FlixHQEpisodeSourceSchema,
+  ReadLightNovelsChapterContentSchema,
+  ReadLightNovelsChapterSchema,
+  ReadLightNovelsSearchResultSchema,
+  ReadLightNovelsSearchSchema,
+  ReadLightNovelsInfoSchema,
+  MangaDexChapterPageSchema,
+  MangaDexChapterSchema,
+  MangaDexSearchResultSchema,
+  MangaDexSearchSchema,
+  MangaDexInfoSchema,
 };

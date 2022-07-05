@@ -4,7 +4,6 @@ import openapi from './data/openapi'
 function App() {
   return (
     <RedocStandalone spec={openapi} options={{
-  
         hideDownloadButton: true,
         disableSearch: false,
         pathInMiddlePanel: false,
@@ -25,7 +24,6 @@ function App() {
               secondary: "#000"
             }
           },
-
           logo: {
             maxHeight: "150px",
             maxWidth: "150px",
