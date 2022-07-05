@@ -12,6 +12,7 @@
         "@types/react-dom": "^18.0.5",
         "core-js": "^3.23.2",
         "mobx": "^6.6.0",
+        "openapi-types": "^12.0.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-scripts": "5.0.1",
