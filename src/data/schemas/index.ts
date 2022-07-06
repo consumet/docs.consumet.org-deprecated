@@ -3,6 +3,7 @@ import hashesSchema from './hashes.schema';
 import libgenBookSchema from './libgenBook.schema';
 import getComicsResSchema from './getComicsRes.schema';
 import getComicsSchema from './getComics.schema';
+import { EpisodeServerSchema } from './global.schema';
 import {
   GogoanimeEpisodeSchema,
   GogoanimeInfoSchema,
@@ -36,6 +37,7 @@ import {
  * Make sure to sort the schemas by the provider name.
  */
 export {
+  EpisodeServerSchema,
   bookSchema,
   hashesSchema,
   libgenBookSchema,

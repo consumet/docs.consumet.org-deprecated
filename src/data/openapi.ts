@@ -24,6 +24,7 @@ import {
   MangaDexInfoSchema,
   getComicsResSchema,
   getComicsSchema,
+  EpisodeServerSchema,
 } from './schemas';
 
 const openapi = {
@@ -70,6 +71,7 @@ The API is intended for use by a wide range of developers, and it can be consume
       GogoanimeInfo: GogoanimeInfoSchema,
       GogoanimeEpisode: GogoanimeEpisodeSchema,
       GogoanimeEpisodeSource: GogoanimeEpisodeSourceSchema,
+      GogoanimeEpisodeServer: EpisodeServerSchema,
       FlixHQMovieSearch: FlixHQSearchSchema,
       FlixHQSearchResult: FlixHQSearchResultSchema,
       FlixHQInfo: FlixHQInfoSchema,
@@ -470,6 +472,38 @@ curl "http://api.consumet.org/anime/gogoanime/Naruto?page=2"
               },
             },
           },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         'x-codeSamples': [
           {
@@ -535,6 +569,38 @@ curl "http://api.consumet.org/anime/gogoanime/info/spy-x-family"
               },
             },
           },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         'x-codeSamples': [
           {
@@ -560,6 +626,74 @@ curl "http://api.consumet.org/anime/gogoanime/watch/spy-x-family-episode-1?serve
 				`,
           },
         ],
+      },
+    },
+    '/anime/gogoanime/servers/{episodeId}': {
+      summary: 'Get anime episode avaliable servers',
+      get: {
+        tags: ['gogoanime'],
+        summary: 'Get anime episode avaliable servers',
+        operationId: 'getAnimeEpisodeServers',
+        parameters: [
+          {
+            name: '{episodeId}',
+            in: 'path',
+            description: "the anime's episode id. e.g. 'spy-x-family-episode-1'",
+            required: true,
+            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    $ref: '#/components/schemas/GogoanimeEpisodeServer',
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
     '/movies/flixhq/{movieTitle}': {
@@ -613,7 +747,7 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
         ],
       },
     },
-    '/movies/flixhq/info/{id}': {
+    '/movies/flixhq/info': {
       summary: 'Get movie info',
       get: {
         tags: ['flixhq'],
@@ -621,9 +755,9 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
         operationId: 'getMovieInfo',
         parameters: [
           {
-            name: '{id}',
-            in: 'path',
-            description: "the movie's id. e.g. 'vincenzo'",
+            name: 'id',
+            in: 'query',
+            description: "the movie's id. e.g. 'tv/watch-vincenzo-67955'",
             required: true,
             style: 'path - simple',
             schema: {
@@ -639,6 +773,38 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/FlixHQInfo',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
                 },
               },
             },
@@ -693,6 +859,38 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/FlixHQEpisodeSource',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
                 },
               },
             },
@@ -771,6 +969,22 @@ curl "http://api.consumet.org/light-novels/readlightnovels/slime"
               },
             },
           },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         'x-codeSamples': [
           {
@@ -808,6 +1022,22 @@ curl "http://api.consumet.org/light-novels/readlightnovels/info/youkoso-jitsuryo
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/ReadLightNovelsChapterContent',
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
                 },
               },
             },
@@ -896,6 +1126,38 @@ curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter
               },
             },
           },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -927,6 +1189,38 @@ curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter
                   items: {
                     type: 'object',
                     $ref: '#/components/schemas/MangaDexChapterPage',
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
                   },
                 },
               },
