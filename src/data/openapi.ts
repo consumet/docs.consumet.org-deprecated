@@ -58,7 +58,7 @@ The API is intended for use by a wide range of developers, and it can be consume
       altText: 'Consumet Logo',
     },
   },
-  servers: [{ url: 'http://api.consumet.org' }],
+  servers: [{ url: 'https://consumet-api.herokuapp.com' }], // we will use this for now (we're poor :()
   components: {
     schemas: {
       Book: bookSchema,
