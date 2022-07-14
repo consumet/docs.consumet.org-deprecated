@@ -44,7 +44,7 @@ const openapi = {
   info: {
     title: 'Consumet',
     description: `
-    Consumet is a search engine API that provides accurate information about numerous entertainment media such as novels, anime, comic books, and so on. It supports anime/movie streaming and also browsing, and reading books/manga/novels.
+Consumet is a search engine API that provides accurate information about numerous entertainment media such as novels, anime, comic books, and so on. It supports anime/movie streaming and also browsing, and reading books/manga/novels.
 
 # Introduction
 
@@ -1504,7 +1504,7 @@ curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter
               'application/json': {
                 schema: {
                   type: 'object',
-                  $ref: '#/components/schemas/AnimePaheEpisode',
+                  $ref: '#/components/schemas/AnimePaheEpisodeSource',
                 },
               },
             },
@@ -1545,11 +1545,11 @@ curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter
       },
     },
     '/meta/anilist/{query}': {
-      summary: 'Get anilist search',
+      summary: 'Get anime search',
       get: {
         tags: ['anilist'],
-        summary: 'Get anilist search',
-        operationId: 'getAnilistSearch',
+        summary: 'Get anime search',
+        operationId: 'getAnimeSearch',
         parameters: [
           {
             name: '{query}',
@@ -1575,11 +1575,11 @@ curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter
       },
     },
     '/meta/anilist/info/{id}': {
-      summary: 'Get anilist info',
+      summary: 'Get anime info',
       get: {
         tags: ['anilist'],
-        summary: 'Get anilist info',
-        operationId: 'getAnilistInfo',
+        summary: 'Get anime info',
+        operationId: 'getAnimeInfo',
         parameters: [
           {
             name: '{id}',
@@ -1647,11 +1647,11 @@ curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter
       },
     },
     '/meta/anilist/watch/{episodeId}': {
-      summary: 'Get anilist episode streaming links',
+      summary: 'Get anime episode streaming links',
       get: {
         tags: ['anilist'],
-        summary: 'Get anilist episode streaming links',
-        operationId: 'getAnilistEpisodeStreamingLinks',
+        summary: 'Get anime episode streaming links',
+        operationId: 'getAnimeEpisodeStreamingLinks',
         parameters: [
           {
             name: '{episodeId}',
@@ -1668,7 +1668,7 @@ curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter
               'application/json': {
                 schema: {
                   type: 'object',
-                  $ref: '#/components/schemas/AnilistEpisode',
+                  $ref: '#/components/schemas/AnilistEpisodeSource',
                 },
               },
             },
