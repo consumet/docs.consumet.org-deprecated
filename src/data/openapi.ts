@@ -7,6 +7,8 @@ import {
   GogoanimeInfoSchema,
   GogoanimeSearchResultSchema,
   GogoanimeEpisodeSourceSchema,
+  GogoanimeRecentEpisodesSchema,
+  GogoanimeTopAiringSchema,
   FlixHQEpisodeSchema,
   FlixHQInfoSchema,
   FlixHQSearchResultSchema,
@@ -25,6 +27,16 @@ import {
   getComicsResSchema,
   getComicsSchema,
   EpisodeServerSchema,
+  AnimePaheEpisodeSchema,
+  AnimePaheInfoSchema,
+  AnimePaheSearchResultSchema,
+  AnimePaheSearchSchema,
+  AnimePaheEpisodeSourceSchema,
+  AnilistEpisodeSchema,
+  AnilistInfoSchema,
+  AnilistSearchResultSchema,
+  AnilistSearchSchema,
+  AnilistEpisodeSourceSchema,
 } from './schemas';
 
 const openapi = {
@@ -32,7 +44,7 @@ const openapi = {
   info: {
     title: 'Consumet',
     description: `
-Consumet is a search engine api that allows you to get acurite information on various entertainment mediums, e.g, books, anime, comics, etc.
+    Consumet is a search engine API that provides accurate information about numerous entertainment media such as novels, anime, comic books, and so on. It supports anime/movie streaming and also browsing, and reading books/manga/novels.
 
 # Introduction
 
@@ -72,6 +84,8 @@ The API is intended for use by a wide range of developers, and it can be consume
       GogoanimeEpisode: GogoanimeEpisodeSchema,
       GogoanimeEpisodeSource: GogoanimeEpisodeSourceSchema,
       GogoanimeEpisodeServer: EpisodeServerSchema,
+      GogoanimeRecentEpisodes: GogoanimeRecentEpisodesSchema,
+      GogoanimeTopAiring: GogoanimeTopAiringSchema,
       FlixHQMovieSearch: FlixHQSearchSchema,
       FlixHQSearchResult: FlixHQSearchResultSchema,
       FlixHQInfo: FlixHQInfoSchema,
@@ -87,6 +101,16 @@ The API is intended for use by a wide range of developers, and it can be consume
       MangaDexInfo: MangaDexInfoSchema,
       MangaDexChapter: MangaDexChapterSchema,
       MangaDexChapterPage: MangaDexChapterPageSchema,
+      AnimePaheSearch: AnimePaheSearchSchema,
+      AnimePaheSearchResult: AnimePaheSearchResultSchema,
+      AnimePaheInfo: AnimePaheInfoSchema,
+      AnimePaheEpisode: AnimePaheEpisodeSchema,
+      AnimePaheEpisodeSource: AnimePaheEpisodeSourceSchema,
+      AnilistSearch: AnilistSearchSchema,
+      AnilistSearchResult: AnilistSearchResultSchema,
+      AnilistInfo: AnilistInfoSchema,
+      AnilistEpisode: AnilistEpisodeSchema,
+      AnilistEpisodeSource: AnilistEpisodeSourceSchema,
     },
   },
   tags: [
@@ -103,7 +127,7 @@ The API is intended for use by a wide range of developers, and it can be consume
     {
       name: 'gogoanime',
       description:
-        'Everything about gogoanime provider. This provider is based on [gogoanime](https://gogoanime.gg/). It provides a lot of information about anime.',
+        'Everything about gogoanime provider. This provider is based on [gogoanime](https://gogoanime.gg/). It provides anime streaming, discovery and information about anime.',
     },
     {
       name: 'flixhq',
@@ -118,7 +142,17 @@ The API is intended for use by a wide range of developers, and it can be consume
     {
       name: 'mangadex',
       description:
-        'Everything about mangadex provider. This provider is based on [mangadex](https://mangadex.org/). It provides a lot of information about manga.',
+        'Everything about mangadex provider. This provider is based on [mangadex](https://mangadex.org/). It provides chapter reading, discovery, and information about manga.',
+    },
+    {
+      name: 'animepahe',
+      description:
+        'Everything about animepahe provider. This provider is based on [animepahe](https://animepahe.com/). It provides anime streaming, discovery and information about anime.',
+    },
+    {
+      name: 'anilist',
+      description:
+        'Everything about anilist custom provider. This provider is based on [anilist](https://anilist.co/). It provides anime streaming, discovery and information about anime.',
     },
   ],
   /**
@@ -127,7 +161,7 @@ The API is intended for use by a wide range of developers, and it can be consume
   'x-tagGroups': [
     {
       name: 'anime',
-      tags: ['gogoanime'],
+      tags: ['animepahe', 'gogoanime'],
     },
     {
       name: 'books',
@@ -140,6 +174,10 @@ The API is intended for use by a wide range of developers, and it can be consume
     {
       name: 'manga',
       tags: ['mangadex'],
+    },
+    {
+      name: 'meta',
+      tags: ['anilist'],
     },
     {
       name: 'movies',
@@ -526,6 +564,118 @@ curl "http://api.consumet.org/anime/gogoanime/info/spy-x-family"
 `,
           },
         ],
+      },
+    },
+    '/anime/gogoanime/top-aring': {
+      summary: 'Get top airing anime',
+      get: {
+        tags: ['gogoanime'],
+        summary: 'Get top airing anime',
+        operationId: 'getTopAiringAnime',
+        parameters: [
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number.',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+
+                  $ref: '#/components/schemas/GogoanimeTopAiring',
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/gogoanime/recent-episodes': {
+      summary: 'Get recent episodes',
+      get: {
+        tags: ['gogoanime'],
+        summary: 'Get recent episodes',
+        operationId: 'getRecentEpisodes',
+        parameters: [
+          {
+            name: 'type',
+            in: 'query',
+            description:
+              'type of animes to get. e.g. "1" for Japanese with subtitles, "2" for English/dub without subtitles, "3" for chinese with english subtitles',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number.',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+
+              description: 'page number.',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/GogoanimeRecentEpisodes',
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
     '/anime/gogoanime/watch/{episodeId}': {
@@ -1190,6 +1340,335 @@ curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter
                     type: 'object',
                     $ref: '#/components/schemas/MangaDexChapterPage',
                   },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/animepahe/{query}': {
+      summary: 'Get anime search',
+      get: {
+        tags: ['animepahe'],
+        summary: 'Get anime search',
+        operationId: 'getAnimeSearch',
+        parameters: [
+          {
+            name: '{query}',
+            in: 'path',
+            description: "the anime's title. e.g. 'tomodachi game'",
+            required: true,
+            style: 'path - simple',
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnimePaheSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/animepahe/info/{id}': {
+      summary: 'Get anime info',
+      get: {
+        tags: ['animepahe'],
+        summary: 'Get anime info',
+        operationId: 'getAnimeInfo',
+        parameters: [
+          {
+            name: '{id}',
+            in: 'path',
+            description: "the anime's id.",
+            required: true,
+            style: 'path - simple',
+          },
+          {
+            name: 'episodePage',
+            in: 'query',
+            description:
+              'episode page number (found in the anime object). gets all episodes by default',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: -1,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnimePaheInfo',
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/animepahe/watch/{episodeId}': {
+      summary: 'Get anime episode streaming links',
+      get: {
+        tags: ['animepahe'],
+        summary: 'Get anime episode streaming links',
+        operationId: 'getAnimeEpisodeStreamingLinks',
+        parameters: [
+          {
+            name: '{episodeId}',
+            in: 'path',
+            description: "the anime's episode id.",
+            required: true,
+            style: 'path - simple',
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnimePaheEpisode',
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/{query}': {
+      summary: 'Get anilist search',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anilist search',
+        operationId: 'getAnilistSearch',
+        parameters: [
+          {
+            name: '{query}',
+            in: 'path',
+            description: "the anime's title. e.g. 'spy x family'",
+            required: true,
+            style: 'path - simple',
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/info/{id}': {
+      summary: 'Get anilist info',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anilist info',
+        operationId: 'getAnilistInfo',
+        parameters: [
+          {
+            name: '{id}',
+            in: 'path',
+            description: "the anime's id.",
+            required: true,
+            style: 'path - simple',
+          },
+          {
+            name: 'dub',
+            in: 'query',
+            description: 'if true, returns dub episodes. default is false',
+            required: false,
+            schema: {
+              type: 'boolean',
+              default: false,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistInfo',
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/watch/{episodeId}': {
+      summary: 'Get anilist episode streaming links',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anilist episode streaming links',
+        operationId: 'getAnilistEpisodeStreamingLinks',
+        parameters: [
+          {
+            name: '{episodeId}',
+            in: 'path',
+            description: "the anime's episode id.",
+            required: true,
+            style: 'path - simple',
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistEpisode',
                 },
               },
             },

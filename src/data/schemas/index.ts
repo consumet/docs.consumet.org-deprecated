@@ -10,6 +10,8 @@ import {
   GogoanimeSearchResultSchema,
   GogoanimeSearchSchema,
   GogoanimeEpisodeSourceSchema,
+  GogoanimeRecentEpisodesSchema,
+  GogoanimeTopAiringSchema,
 } from './gogoanime.schema';
 import {
   FlixHQEpisodeSchema,
@@ -32,6 +34,20 @@ import {
   MangaDexSearchSchema,
   MangaDexInfoSchema,
 } from './mangadex.schema';
+import {
+  AnimePaheEpisodeSchema,
+  AnimePaheInfoSchema,
+  AnimePaheSearchResultSchema,
+  AnimePaheSearchSchema,
+  AnimePaheEpisodeSourceSchema,
+} from './animepahe.schema';
+import {
+  AnilistEpisodeSchema,
+  AnilistInfoSchema,
+  AnilistSearchResultSchema,
+  AnilistSearchSchema,
+  AnilistEpisodeSourceSchema,
+} from './anilist.schema';
 
 /**
  * Make sure to sort the schemas by the provider name.
@@ -46,6 +62,8 @@ export {
   GogoanimeInfoSchema,
   GogoanimeSearchResultSchema,
   GogoanimeEpisodeSourceSchema,
+  GogoanimeRecentEpisodesSchema,
+  GogoanimeTopAiringSchema,
   FlixHQEpisodeSchema,
   FlixHQInfoSchema,
   FlixHQSearchResultSchema,
@@ -63,4 +81,14 @@ export {
   MangaDexInfoSchema,
   getComicsResSchema,
   getComicsSchema,
+  AnimePaheEpisodeSchema,
+  AnimePaheInfoSchema,
+  AnimePaheSearchResultSchema,
+  AnimePaheSearchSchema,
+  AnimePaheEpisodeSourceSchema,
+  AnilistEpisodeSchema,
+  AnilistInfoSchema,
+  AnilistSearchResultSchema,
+  AnilistSearchSchema,
+  AnilistEpisodeSourceSchema,
 };
