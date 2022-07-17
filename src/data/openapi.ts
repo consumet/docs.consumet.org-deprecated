@@ -987,7 +987,7 @@ curl "https://consumet-api.herokuapp.com/movies/flixhq/Vincenzo"
         parameters: [
           {
             name: 'episodeId',
-            in: 'path',
+            in: 'query',
             description: "the movie's episode id.",
             required: true,
             schema: {
