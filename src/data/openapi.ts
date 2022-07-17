@@ -1948,8 +1948,7 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
         'x-codeSamples': [
           {
             lang: 'curl',
-            code: `
-curl 'https://consumet-api.herokuapp.com/manga/mangahere/info?id=tomodachi_game'`,
+            source: `curl "https://consumet-api.herokuapp.com/manga/mangahere/info?id=tomodachi_game"`,
           },
         ],
       },
@@ -2038,8 +2037,7 @@ curl 'https://consumet-api.herokuapp.com/manga/mangahere/info?id=tomodachi_game'
         'x-codeSamples': [
           {
             lang: 'curl',
-            code: `
-curl 'https://consumet-api.herokuapp.com/manga/mangahere/read?chapterId=tomodachi_game/c102'`,
+            source: `curl 'https://consumet-api.herokuapp.com/manga/mangahere/read?chapterId=tomodachi_game/c102'`,
           },
         ],
       },
