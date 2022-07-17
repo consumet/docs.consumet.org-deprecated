@@ -1,4 +1,4 @@
-const MangaDexSearchSchema = {
+const MangaHereSearchSchema = {
   type: 'object',
   properties: {
     currentPage: {
@@ -7,17 +7,23 @@ const MangaDexSearchSchema = {
       readOnly: true,
       description: 'The current page.',
     },
+    hasNextPage: {
+      type: 'boolean',
+      nullable: false,
+      readOnly: true,
+      description: 'Whether the next page exists.',
+    },
     results: {
       type: 'array',
       description: 'The manga search results.',
       items: {
-        $ref: `#/components/schemas/MangaDexSearchResult`,
+        $ref: `#/components/schemas/MangaHereSearchResult`,
       },
     },
   },
 };
 
-const MangaDexSearchResultSchema = {
+const MangaHereSearchResultSchema = {
   type: 'object',
   properties: {
     id: {
@@ -32,33 +38,30 @@ const MangaDexSearchResultSchema = {
       readOnly: true,
       description: 'The manga title.',
     },
-    image: {
-      type: 'string',
+    headerForImage: {
+      type: 'object',
       nullable: false,
       readOnly: true,
-      description: 'The manga image url.',
-    },
-    altTitles: {
-      type: 'array',
-      nullable: true,
-      readOnly: true,
-      description: 'The manga alternative titles.',
-      items: {
-        type: 'object',
-        desciption: 'The manga alternative title. e.g. "{ ja: "トモダチゲーム" }"',
-        properties: {
-          x: {
-            type: 'string',
-            nullable: false,
-            readOnly: true,
-            description: 'The alternative title.',
-          },
+      description: 'The image headers that you might need to use to get the image url.',
+      properties: {
+        Referer: {
+          type: 'string',
+          nullable: false,
+          readOnly: true,
+          description: 'The header for image referer.',
         },
       },
     },
+    image: {
+      type: 'string',
+      nullable: true,
+      readOnly: true,
+      description:
+        'The manga image url. **Might need to use the headers to get the image to work**',
+    },
     description: {
       type: 'string',
-      nullable: false,
+      nullable: true,
       readOnly: true,
       description: 'The manga description.',
     },
@@ -67,30 +70,12 @@ const MangaDexSearchResultSchema = {
       nullable: false,
       readOnly: true,
       description: 'The manga status.',
-      enum: ['ongoing', 'completed', 'hiatus', 'cancelled'],
-    },
-    releasedDate: {
-      type: 'string',
-      nullable: true,
-      readOnly: true,
-      description: 'The manga released date.',
-    },
-    lastVolume: {
-      type: 'integer',
-      nullable: true,
-      readOnly: true,
-      description: 'The manga last volume.',
-    },
-    lastChapter: {
-      type: 'integer',
-      nullable: true,
-      readOnly: true,
-      description: 'The manga last chapter.',
+      enum: ['ongoing', 'completed', 'unknown'],
     },
   },
 };
 
-const MangaDexChapterSchema = {
+const MangaHereChapterSchema = {
   type: 'object',
   properties: {
     id: {
@@ -105,16 +90,16 @@ const MangaDexChapterSchema = {
       readOnly: true,
       description: 'The chapter title.',
     },
-    pages: {
-      type: 'integer',
+    releasedDate: {
+      type: 'string',
       nullable: false,
       readOnly: true,
-      description: 'Number of pages in the chapter.',
+      description: 'The chapter released date.',
     },
   },
 };
 
-const MangaDexChapterPageSchema = {
+const MangaHereChapterPageSchema = {
   type: 'object',
   properties: {
     img: {
@@ -129,10 +114,24 @@ const MangaDexChapterPageSchema = {
       readOnly: true,
       description: 'The chapter page number.',
     },
+    headerForImage: {
+      type: 'object',
+      nullable: false,
+      readOnly: true,
+      description: 'The image headers that you might need to use to get the image to work.',
+      properties: {
+        Referer: {
+          type: 'string',
+          nullable: false,
+          readOnly: true,
+          description: 'The header for image referer.',
+        },
+      },
+    },
   },
 };
 
-const MangaDexInfoSchema = {
+const MangaHereInfoSchema = {
   type: 'object',
   properties: {
     id: {
@@ -147,36 +146,29 @@ const MangaDexInfoSchema = {
       readOnly: true,
       description: 'The manga title.',
     },
-    altTitles: {
-      type: 'array',
+    description: {
+      type: 'string',
       nullable: false,
       readOnly: true,
-      description: 'The manga alternative titles.',
-      items: {
-        type: 'object',
-        desciption: 'The manga alternative title. e.g. "{ ja: "トモダチゲーム" }"',
-        properties: {
-          x: {
-            type: 'string',
-            nullable: false,
-            readOnly: true,
-            description: 'The alternative title.',
-          },
-        },
-      },
+      description: 'The manga description',
     },
-    description: {
+    image: {
+      type: 'string',
+      nullable: false,
+      readOnly: true,
+      description: 'The manga image url.',
+    },
+    headerForImage: {
       type: 'object',
       nullable: false,
       readOnly: true,
-      description:
-        'The manga description in various languages. e.g. "{ ja: "トモダチゲーム" }" in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format.',
+      description: 'The image headers that you might need to use to get the image to work.',
       properties: {
-        x: {
+        Referer: {
           type: 'string',
           nullable: false,
           readOnly: true,
-          description: 'The manga description in x language.',
+          description: 'The header for image referer.',
         },
       },
     },
@@ -192,45 +184,45 @@ const MangaDexInfoSchema = {
         description: 'The manga genre.',
       },
     },
-    themes: {
-      type: 'array',
-      nullable: true,
-      readOnly: true,
-      description: 'The manga themes.',
-      items: {
-        type: 'string',
-        nullable: false,
-        readOnly: true,
-        description: 'The manga theme.',
-      },
-    },
     status: {
       type: 'string',
       nullable: false,
       readOnly: true,
       description: 'The manga status.',
-      enum: ['ongoing', 'completed', 'hiatus', 'cancelled'],
+      enum: ['ongoing', 'completed', 'unknown'],
     },
-    releasedDate: {
-      type: 'Integer',
+    rating: {
+      type: 'float',
+      nullable: false,
+      readOnly: true,
+      description: 'The manga rating.',
+    },
+    authors: {
+      type: 'array',
       nullable: true,
       readOnly: true,
-      description: 'The manga released date. e.g. "2019"',
+      description: 'The manga authors.',
+      items: {
+        type: 'string',
+        nullable: false,
+        readOnly: true,
+        description: 'The manga author.',
+      },
     },
     chapters: {
       type: 'array',
       description: 'The manga chapters.',
       items: {
-        $ref: '#/components/schemas/MangaDexChapter',
+        $ref: '#/components/schemas/MangaHereChapter',
       },
     },
   },
 };
 
 export {
-  MangaDexSearchSchema,
-  MangaDexSearchResultSchema,
-  MangaDexChapterSchema,
-  MangaDexChapterPageSchema,
-  MangaDexInfoSchema,
+  MangaHereSearchSchema,
+  MangaHereSearchResultSchema,
+  MangaHereChapterSchema,
+  MangaHereChapterPageSchema,
+  MangaHereInfoSchema,
 };

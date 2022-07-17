@@ -37,6 +37,11 @@ import {
   AnilistSearchResultSchema,
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
+  MangaHereChapterPageSchema,
+  MangaHereChapterSchema,
+  MangaHereSearchResultSchema,
+  MangaHereSearchSchema,
+  MangaHereInfoSchema,
 } from './schemas';
 
 const openapi = {
@@ -111,48 +116,58 @@ The API is intended for use by a wide range of developers, and it can be consume
       AnilistInfo: AnilistInfoSchema,
       AnilistEpisode: AnilistEpisodeSchema,
       AnilistEpisodeSource: AnilistEpisodeSourceSchema,
+      MangaHereSearch: MangaHereSearchSchema,
+      MangaHereSearchResult: MangaHereSearchResultSchema,
+      MangaHereInfo: MangaHereInfoSchema,
+      MangaHereChapter: MangaHereChapterSchema,
+      MangaHereChapterPage: MangaHereChapterPageSchema,
     },
   },
   tags: [
     {
       name: 'libgen',
       description:
-        'Everything about libgen provider. This is based on [libgen.rs](https://libgen.io/) which provides a lot of information about books.',
+        'Everything about Libgen provider. This is based on [Libgen.rs](https://libgen.io/) which provides a lot of information about books.',
     },
     {
       name: 'getComics',
       description:
-        'Everything about getComics provider. This provider is based on [getComics](https://getcomics.info/) which provides a lot of information about comics.',
+        'Everything about GetComics provider. This provider is based on [GetComics](https://getcomics.info/) which provides a lot of information about comics.',
     },
     {
       name: 'gogoanime',
       description:
-        'Everything about gogoanime provider. This provider is based on [gogoanime](https://gogoanime.gg/). It provides anime streaming, discovery and information about anime.',
+        'Everything about Gogoanime provider. This provider is based on [Gogoanime](https://gogoanime.gg/). It provides anime streaming, discovery and information about anime.',
     },
     {
       name: 'flixhq',
       description:
-        'Everything about flixhq provider. This provider is based on [flixhq](https://flixhq.to/). It provides a lot of information about movies and tv shows.',
+        'Everything about FlixHQ provider. This provider is based on [FlixHQ](https://flixhq.to/). It provides a lot of information about movies and tv shows.',
     },
     {
       name: 'readlightnovels',
       description:
-        'Everything about readlightnovels provider. This provider is based on [readlightnovels](https://readlightnovels.net/). It provides a lot of information about light novels.',
+        'Everything about ReadLightNovels provider. This provider is based on [ReadLightNovels](https://readlightnovels.net/). It provides a lot of information about light novels.',
     },
     {
       name: 'mangadex',
       description:
-        'Everything about mangadex provider. This provider is based on [mangadex](https://mangadex.org/). It provides chapter reading, discovery, and information about manga.',
+        'Everything about MangDex provider. This provider is based on [MangDex](https://mangadex.org/). It provides chapter reading, discovery, and information about manga.',
     },
     {
       name: 'animepahe',
       description:
-        'Everything about animepahe provider. This provider is based on [animepahe](https://animepahe.com/). It provides anime streaming, discovery and information about anime.',
+        'Everything about AnimePahe provider. This provider is based on [AnimePahe](https://animepahe.com/). It provides anime streaming, discovery and information about anime.',
     },
     {
       name: 'anilist',
       description:
-        'Everything about anilist custom provider. This provider is based on [anilist](https://anilist.co/). It provides anime streaming, discovery and information about anime.',
+        'Everything about Anilist custom provider. This provider is based on [Anilist](https://anilist.co/). It provides anime streaming, discovery and information about anime.',
+    },
+    {
+      name: 'mangahere',
+      description:
+        'Everything about MangaHere provider. This provider is based on [MangaHERE](http://www.mangahere.cc/). It provides chapter reading, discovery, and information about manga.',
     },
   ],
   /**
@@ -173,7 +188,7 @@ The API is intended for use by a wide range of developers, and it can be consume
     },
     {
       name: 'manga',
-      tags: ['mangadex'],
+      tags: ['mangadex', 'mangahere'],
     },
     {
       name: 'meta',
@@ -1810,6 +1825,223 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
             },
           },
         },
+      },
+    },
+    '/manga/mangahere/{query}': {
+      summary: 'Get manga search',
+      get: {
+        tags: ['mangahere'],
+        summary: 'Get manga search',
+        operationId: 'getMangaSearch',
+        parameters: [
+          {
+            name: '{query}',
+            in: 'path',
+            description: "the manga's title. e.g. 'spy x family'",
+            required: true,
+            style: 'path - simple',
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'the page number. default is 1',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/MangaHereSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/manga/mangahere/info': {
+      summary: 'Get manga info',
+      get: {
+        tags: ['mangahere'],
+        summary: 'Get manga info',
+        operationId: 'getMangaInfo',
+        parameters: [
+          {
+            name: 'id',
+            in: 'query',
+            description: "the manga's id.",
+            required: true,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/MangaHereInfo',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        'x-codeSamples': [
+          {
+            lang: 'curl',
+            code: `
+curl 'https://consumet-api.herokuapp.com/manga/mangahere/info?id=tomodachi_game'`,
+          },
+        ],
+      },
+    },
+    '/manga/mangahere/read': {
+      summary: 'Get manga chapters',
+      get: {
+        tags: ['mangahere'],
+        summary: 'Get manga chapters',
+        operationId: 'getMangaChapters',
+        parameters: [
+          {
+            name: 'chapterId',
+            in: 'query',
+            description: "the manga's chapter id.",
+            required: true,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    $ref: '#/components/schemas/MangaHereChapter',
+                  },
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        'x-codeSamples': [
+          {
+            lang: 'curl',
+            code: `
+curl 'https://consumet-api.herokuapp.com/manga/mangahere/read?chapterId=tomodachi_game/c102'`,
+          },
+        ],
       },
     },
   },

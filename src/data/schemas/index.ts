@@ -48,6 +48,13 @@ import {
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
 } from './anilist.schema';
+import {
+  MangaHereChapterPageSchema,
+  MangaHereChapterSchema,
+  MangaHereSearchResultSchema,
+  MangaHereSearchSchema,
+  MangaHereInfoSchema,
+} from './mangahere.schema';
 
 /**
  * Make sure to sort the schemas by the provider name.
@@ -91,4 +98,9 @@ export {
   AnilistSearchResultSchema,
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
+  MangaHereChapterPageSchema,
+  MangaHereChapterSchema,
+  MangaHereSearchResultSchema,
+  MangaHereSearchSchema,
+  MangaHereInfoSchema,
 };
