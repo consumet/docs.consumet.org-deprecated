@@ -224,7 +224,7 @@ The API is intended for use by a wide range of developers, and it can be consume
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: "curl 'http://api.consumet.org/comics/s/batman'",
+            source: "curl 'https://consumet-api.herokuapp.com/comics/s/batman'",
           },
           {
             lang: 'Node.js',
@@ -234,7 +234,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('http://api.consumet.org/comics/s/batman');
+  const { data } = get('https://consumet-api.herokuapp.com/comics/s/batman');
   console.log(data)
 }
 
@@ -279,7 +279,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: "curl 'http://api.consumet.org/comics/getComics/s/batman'",
+            source: "curl 'https://consumet-api.herokuapp.com/comics/getComics/s/batman'",
           },
           {
             lang: 'Node.js',
@@ -289,7 +289,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('http://api.consumet.org/comics/getComics/s/batman');
+  const { data } = get('https://consumet-api.herokuapp.com/comics/getComics/s/batman');
   console.log(data)
 }
 
@@ -336,7 +336,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: `curl 'http://api.consumet.org/books/s/batman'`,
+            source: `curl 'https://consumet-api.herokuapp.com/books/s/batman'`,
           },
           {
             lang: 'Node.js',
@@ -346,7 +346,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('http://api.consumet.org/books/s/batman');
+  const { data } = get('https://consumet-api.herokuapp.com/books/s/batman');
   console.log(data)
 }
 
@@ -392,7 +392,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: `curl 'http://api.consumet.org/books/libgen/s/batman'`,
+            source: `curl 'https://consumet-api.herokuapp.com/books/libgen/s/batman'`,
           },
           {
             lang: 'Node.js',
@@ -402,7 +402,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('http://api.consumet.org/books/libgen/s/batman');
+  const { data } = get('https://consumet-api.herokuapp.com/books/libgen/s/batman');
   console.log(data)
 }
 
@@ -461,7 +461,7 @@ import requests
 import json
 
 animeTitle = "One piece"
-url = f'http://api.consumet.org/anime/gogoanime/{animeTitle}'
+url = f'https://consumet-api.herokuapp.com/anime/gogoanime/{animeTitle}'
 params = {
  'page': 1
 }
@@ -474,7 +474,7 @@ print(data)
           {
             lang: 'curl',
             source: `
-curl "http://api.consumet.org/anime/gogoanime/Naruto?page=2"
+curl "https://consumet-api.herokuapp.com/anime/gogoanime/Naruto?page=2"
 				`,
           },
         ],
@@ -551,7 +551,7 @@ import requests
 import json
 
 animeId = "spy-x-family"
-url = f'http://api.consumet.org/anime/gogoanime/info/{animeId}'
+url = f'https://consumet-api.herokuapp.com/anime/gogoanime/info/{animeId}'
 response = requests.get(url)
 data = response.json()
 print(data)
@@ -560,7 +560,7 @@ print(data)
           {
             lang: 'curl',
             source: `
-curl "http://api.consumet.org/anime/gogoanime/info/spy-x-family"
+curl "https://consumet-api.herokuapp.com/anime/gogoanime/info/spy-x-family"
 `,
           },
         ],
@@ -760,7 +760,7 @@ import requests
 import json
 
 episodeId = "spy-x-family-episode-1"
-url = f'http://api.consumet.org/anime/gogoanime/watch/{episodeId}'
+url = f'https://consumet-api.herokuapp.com/anime/gogoanime/watch/{episodeId}'
 params = {
 	 'server': 'gogocdn'
 }
@@ -772,7 +772,7 @@ print(data)
           {
             lang: 'curl',
             source: `
-curl "http://api.consumet.org/anime/gogoanime/watch/spy-x-family-episode-1?server=gogocdn"
+curl "https://consumet-api.herokuapp.com/anime/gogoanime/watch/spy-x-family-episode-1?server=gogocdn"
 				`,
           },
         ],
@@ -891,7 +891,7 @@ curl "http://api.consumet.org/anime/gogoanime/watch/spy-x-family-episode-1?serve
           {
             lang: 'curl',
             source: `
-curl "http://api.consumet.org/movies/flixhq/Vincenzo"
+curl "https://consumet-api.herokuapp.com/movies/flixhq/Vincenzo"
 				`,
           },
         ],
@@ -943,6 +943,22 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
               },
             },
           },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
           '500': {
             description: 'Internal Server Error',
             content: {
@@ -962,7 +978,7 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
         },
       },
     },
-    '/movies/flixhq/watch/{episodeId}': {
+    '/movies/flixhq/watch': {
       summary: 'Get movie episode streaming links',
       get: {
         tags: ['flixhq'],
@@ -970,11 +986,10 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
         operationId: 'getMovieEpisode',
         parameters: [
           {
-            name: '{episodeId}',
+            name: 'episodeId',
             in: 'path',
             description: "the movie's episode id.",
             required: true,
-            style: 'path - simple',
             schema: {
               type: 'string',
             },
@@ -988,7 +1003,6 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
               type: 'string',
             },
           },
-
           {
             name: 'server',
             in: 'query',
@@ -1015,6 +1029,22 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
           },
           '400': {
             description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
             content: {
               'application/json': {
                 schema: {
@@ -1083,13 +1113,13 @@ curl "http://api.consumet.org/movies/flixhq/Vincenzo"
           {
             lang: 'curl',
             source: `
-curl "http://api.consumet.org/light-novels/readlightnovels/slime"
+curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/slime"
               `,
           },
         ],
       },
     },
-    '/light-novels/readlightnovels/info/{id}': {
+    '/light-novels/readlightnovels/info': {
       summary: 'Get light novel info',
       get: {
         tags: ['readlightnovels'],
@@ -1097,13 +1127,24 @@ curl "http://api.consumet.org/light-novels/readlightnovels/slime"
         operationId: 'getLightNovelInfo',
         parameters: [
           {
-            name: '{id}',
-            in: 'path',
-            description: "the light novel's id. e.g. 'classroom of the elite'",
+            name: 'id',
+            in: 'query',
+            description:
+              "the light novel's id. e.g. 'youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e'",
             required: true,
-            style: 'path - simple',
             schema: {
               type: 'string',
+            },
+          },
+          {
+            name: 'chapterPage',
+            in: 'query',
+            description:
+              'the chapter page. if not specified, will return all chapters. number of pages can be found in the info response.',
+            required: false,
+            schema: {
+              type: 'number',
+              default: -1,
             },
           },
         ],
@@ -1115,6 +1156,38 @@ curl "http://api.consumet.org/light-novels/readlightnovels/slime"
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/ReadLightNovelsInfo',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
                 },
               },
             },
@@ -1140,13 +1213,13 @@ curl "http://api.consumet.org/light-novels/readlightnovels/slime"
           {
             lang: 'curl',
             source: `
-curl "http://api.consumet.org/light-novels/readlightnovels/info/youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e"
+curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/info?id=youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e"
               `,
           },
         ],
       },
     },
-    '/light-novels/readlightnovels/read/{chapterId}': {
+    '/light-novels/readlightnovels/read': {
       summary: 'Get light novel chapter content',
       get: {
         tags: ['readlightnovels'],
@@ -1154,11 +1227,10 @@ curl "http://api.consumet.org/light-novels/readlightnovels/info/youkoso-jitsuryo
         operationId: 'getLightNovelChapter',
         parameters: [
           {
-            name: '{chapterId}',
-            in: 'path',
+            name: 'chapterId',
+            in: 'query',
             description: "the light novel's chapter id.",
             required: true,
-            style: 'path - simple',
             schema: {
               type: 'string',
             },
@@ -1176,6 +1248,38 @@ curl "http://api.consumet.org/light-novels/readlightnovels/info/youkoso-jitsuryo
               },
             },
           },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
           '500': {
             description: 'Internal Server Error',
             content: {
@@ -1197,7 +1301,7 @@ curl "http://api.consumet.org/light-novels/readlightnovels/info/youkoso-jitsuryo
           {
             lang: 'curl',
             source: `
-curl "http://api.consumet.org/light-novels/readlightnovels/read/volume-1-chapter-1-intro-welcome-to-my-dream-like-school-life"
+curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapterId=youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e/volume-2-chapter-3-the-unexpected-witness-part-3"
               `,
           },
         ],
