@@ -253,6 +253,15 @@ const AnilistInfoSchema = {
       readOnly: true,
       description: 'The anime duration in minutes',
     },
+    studios: {
+      type: 'array',
+      nullable: true,
+      readOnly: true,
+      description: 'The anime studios.',
+      items: {
+        type: 'string',
+      },
+    },
     subOrDub: {
       type: 'string',
       nullable: true,
