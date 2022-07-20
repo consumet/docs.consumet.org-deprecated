@@ -7,8 +7,8 @@ const getComicsResSchema = {
         $ref: '#/components/schemas/GetComics',
       },
     },
-    page: {
-      type: 'number',
+    hasNextPage: {
+      type: 'boolean',
       readonly: true,
       nullable: false,
     },

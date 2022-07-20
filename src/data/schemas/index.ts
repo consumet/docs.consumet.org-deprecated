@@ -3,6 +3,8 @@ import hashesSchema from './hashes.schema';
 import libgenBookSchema from './libgenBook.schema';
 import getComicsResSchema from './getComicsRes.schema';
 import getComicsSchema from './getComics.schema';
+import genericErrorSchema from './genericError.schema';
+import libgenResult from './libgenResult.schema';
 import {
   GogoanimeEpisodeSchema,
   GogoanimeInfoSchema,
@@ -34,4 +36,6 @@ export {
   FlixHQEpisodeSourceSchema,
   getComicsResSchema,
   getComicsSchema,
+  genericErrorSchema,
+  libgenResult,
 };

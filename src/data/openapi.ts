@@ -14,6 +14,8 @@ import {
   FlixHQEpisodeSourceSchema,
   getComicsResSchema,
   getComicsSchema,
+  genericErrorSchema,
+  libgenResult,
 } from './schemas';
 
 import { OpenAPIV3, OpenAPIV3_1 } from 'openapi-types';
@@ -56,11 +58,12 @@ const openapi = {
       FlixHQInfo: FlixHQInfoSchema,
       FlixHQEpisode: FlixHQEpisodeSchema,
       FlixHQEpisodeSource: FlixHQEpisodeSourceSchema,
+      GenericError: genericErrorSchema,
     },
   },
   tags: [
-    { name: 'libgen', description: 'Everything about libgen provider' },
-    { name: 'getComics', description: 'Everything about getComics provider' },
+    { name: 'books', description: 'The books route' },
+    { name: 'comics', description: 'The comics route' },
     {
       name: 'gogoanime',
       description: 'Everything about gogoanime provider',
@@ -70,11 +73,11 @@ const openapi = {
   'x-tagGroups': [
     {
       name: 'books',
-      tags: ['libgen'],
+      tags: ['books'],
     },
     {
       name: 'comics',
-      tags: ['getComics'],
+      tags: ['comics'],
     },
     {
       name: 'anime',
@@ -86,18 +89,26 @@ const openapi = {
     },
   ],
   paths: {
-    '/comics/s/{comicTitle}': {
-      summary: 'Get search comic download link w/ information',
+    '/comics/s': {
+      summary: 'Comic search',
       get: {
-        tags: ['getComics'],
-        summary: 'Get search comic download link w/ information',
+        tags: ['comics'],
+        summary: 'Get comic info',
         parameters: [
           {
-            name: '{comicTitle}',
-            in: 'path',
+            name: 'comicTitle',
+            in: 'query',
             description: "the comics's title.",
             required: true,
-            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'the request page number.',
+            required: false,
             schema: {
               type: 'string',
             },
@@ -107,13 +118,16 @@ const openapi = {
           '200': {
             description: 'OK',
             content: {
-              'appFlication/json': {
-                schema: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/GetComicsRes',
-                  },
-                },
+              'application/json': {
+                schema: getComicsResSchema,
+              },
+            },
+          },
+          '400': {
+            description: 'ERROR',
+            content: {
+              'application/json': {
+                schema: genericErrorSchema,
               },
             },
           },
@@ -121,7 +135,7 @@ const openapi = {
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: "curl 'http://api.consumet.org/comics/s/batman'",
+            source: "curl 'http://api.consumet.org/comics/s?bookTitle=batman&page=1'",
           },
           {
             lang: 'typescript',
@@ -131,7 +145,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('http://api.consumet.org/comics/s/batman');
+  const { data } = get('http://api.consumet.org/comics/s?bookTitle=batman&page=1');
   console.log(data)
 }
 
@@ -141,18 +155,26 @@ run();
         ],
       },
     },
-    '/comics/getComics/s/{comicTitle}': {
-      summary: 'Get search comic download link w/ information',
+    '/comics/getComics/s': {
+      summary: 'Comic search',
       get: {
-        tags: ['getComics'],
-        summary: 'Get search comic download link w/ information',
+        tags: ['comics'],
+        summary: 'Get comic info',
         parameters: [
           {
-            name: '{comicTitle}',
-            in: 'path',
+            name: 'comicTitle',
+            in: 'query',
             description: "the comics's title.",
             required: true,
-            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'the request page number.',
+            required: false,
             schema: {
               type: 'string',
             },
@@ -162,13 +184,16 @@ run();
           '200': {
             description: 'OK',
             content: {
-              'appFlication/json': {
-                schema: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/GetComicsRes',
-                  },
-                },
+              'application/json': {
+                schema: getComicsResSchema,
+              },
+            },
+          },
+          '400': {
+            description: 'ERROR',
+            content: {
+              'application/json': {
+                schema: genericErrorSchema,
               },
             },
           },
@@ -176,7 +201,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: "curl 'http://api.consumet.org/comics/getComics/s/batman'",
+            source: "curl 'http://api.consumet.org/comics/getComics/s?comicTitle=batman&page=1'",
           },
           {
             lang: 'typescript',
@@ -186,7 +211,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('http://api.consumet.org/comics/getComics/s/batman');
+  const { data } = get('http://api.consumet.org/comics/getComics/s?comicTitle=batman&page=1');
   console.log(data)
 }
 
@@ -197,19 +222,27 @@ run();
       },
     },
 
-    '/books/s/{bookTitle}': {
+    '/books/s': {
       summary: 'Search For a Book',
       get: {
-        tags: ['libgen'],
-        summary: 'Search For a Book',
+        tags: ['books'],
+        summary: 'Get book info',
         operationId: 'getBookList',
         parameters: [
           {
-            name: '{bookTitle}',
-            in: 'path',
-            description: 'The title of the book you want to search',
+            name: 'bookTitle',
+            in: 'query',
+            description: "the book's title.",
             required: true,
-            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'the request page number.',
+            required: false,
             schema: {
               type: 'string',
             },
@@ -219,13 +252,16 @@ run();
           '200': {
             description: 'OK',
             content: {
-              json: {
-                schema: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/LibgenBook',
-                  },
-                },
+              'application/json': {
+                schema: libgenResult,
+              },
+            },
+          },
+          '400': {
+            description: 'ERROR',
+            content: {
+              'application/json': {
+                schema: genericErrorSchema,
               },
             },
           },
@@ -233,7 +269,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: `curl 'http://api.consumet.org/books/s/batman'`,
+            source: `curl 'http://api.consumet.org/books/s?bookTitle=batman&page=1'`,
           },
           {
             lang: 'javascript',
@@ -243,7 +279,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('http://api.consumet.org/books/s/batman');
+  const { data } = get('http://api.consumet.org/books/s?bookTitle=batman&page=1');
   console.log(data)
 }
 
@@ -253,19 +289,27 @@ run();
         ],
       },
     },
-    '/books/libgen/s/{bookTitle}': {
+    '/books/libgen/s': {
       summary: 'Search For a Book',
       get: {
-        tags: ['libgen'],
-        summary: 'Search For a Book',
+        tags: ['books'],
+        summary: 'Get book info',
         operationId: 'getBookListLibgen',
         parameters: [
           {
-            name: '{bookTitle}',
-            in: 'path',
-            description: 'The title of the book you want to search',
+            name: 'bookTitle',
+            in: 'query',
+            description: "the book's title.",
             required: true,
-            style: 'path - simple',
+            schema: {
+              type: 'string',
+            },
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'the request page number.',
+            required: false,
             schema: {
               type: 'string',
             },
@@ -275,13 +319,16 @@ run();
           '200': {
             description: 'OK',
             content: {
-              json: {
-                schema: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/LibgenBook',
-                  },
-                },
+              'application/json': {
+                schema: libgenResult,
+              },
+            },
+          },
+          '400': {
+            description: 'ERROR',
+            content: {
+              'application/json': {
+                schema: genericErrorSchema,
               },
             },
           },
