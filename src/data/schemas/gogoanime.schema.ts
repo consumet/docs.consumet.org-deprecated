@@ -232,10 +232,136 @@ const GogoanimeInfoSchema = {
   },
 };
 
+const GogoanimeRecentEpisodesSchema = {
+  type: 'object',
+  properties: {
+    currentPage: {
+      type: 'integer',
+      nullable: false,
+      readOnly: true,
+      description: 'The current page.',
+    },
+    hasNextPage: {
+      type: 'boolean',
+      nullable: false,
+      readOnly: true,
+      description: 'Whether there is a next page.',
+    },
+    results: {
+      type: 'array',
+      description: 'The recent episodes.',
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime id.',
+          },
+          episodeId: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The episode id.',
+          },
+          episodeNumber: {
+            type: 'integer',
+            nullable: false,
+            readOnly: true,
+            description: 'The episode number.',
+          },
+          title: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime title.',
+          },
+          image: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime image url.',
+          },
+          url: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime url.',
+          },
+        },
+      },
+    },
+  },
+};
+
+const GogoanimeTopAiringSchema = {
+  type: 'object',
+  properties: {
+    currentPage: {
+      type: 'integer',
+      nullable: false,
+      readOnly: true,
+      description: 'The current page.',
+    },
+    hasNextPage: {
+      type: 'boolean',
+      nullable: false,
+      readOnly: true,
+      description: 'Whether there is a next page.',
+    },
+    results: {
+      type: 'array',
+      description: 'The top airing anime.',
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime id.',
+          },
+          title: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime title.',
+          },
+          image: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime image url.',
+          },
+          url: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime url.',
+          },
+          genres: {
+            type: 'array',
+            description: 'The anime genres list.',
+            items: {
+              type: 'string',
+              nullable: false,
+              readOnly: true,
+              description: 'The genre.',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export {
   GogoanimeSearchResultSchema,
   GogoanimeEpisodeSchema,
   GogoanimeInfoSchema,
   GogoanimeSearchSchema,
   GogoanimeEpisodeSourceSchema,
+  GogoanimeRecentEpisodesSchema,
+  GogoanimeTopAiringSchema,
 };
