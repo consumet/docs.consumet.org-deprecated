@@ -44,6 +44,11 @@ import {
   MangaHereSearchResultSchema,
   MangaHereSearchSchema,
   MangaHereInfoSchema,
+  MangaKakalotChapterPageSchema,
+  MangaKakalotChapterSchema,
+  MangaKakalotSearchResultSchema,
+  MangaKakalotSearchSchema,
+  MangaKakalotInfoSchema,
 } from './schemas';
 
 const openapi = {
@@ -123,6 +128,11 @@ The API is intended for use by a wide range of developers, and it can be consume
       MangaHereInfo: MangaHereInfoSchema,
       MangaHereChapter: MangaHereChapterSchema,
       MangaHereChapterPage: MangaHereChapterPageSchema,
+      MangaKakalotSearch: MangaKakalotSearchSchema,
+      MangaKakalotSearchResult: MangaKakalotSearchResultSchema,
+      MangaKakalotInfo: MangaKakalotInfoSchema,
+      MangaKakalotChapter: MangaKakalotChapterSchema,
+      MangaKakalotChapterPage: MangaKakalotChapterPageSchema,
     },
   },
   tags: [
@@ -169,7 +179,12 @@ The API is intended for use by a wide range of developers, and it can be consume
     {
       name: 'mangahere',
       description:
-        'Everything about MangaHere provider. This provider is based on [MangaHERE](http://www.mangahere.cc/). It provides chapter reading, discovery, and information about manga.',
+        'Everything about MangaHere provider. This provider is based on [MangaHERE](http://www.mangahere.cc/). It provides chapter reading, manga discovery, and information about manga.',
+    },
+    {
+      name: 'mangakakalot',
+      description:
+        'Everything about MangaKakalot provider. This provider is based on [MangaKakalot](https://mangakakalot.com/). It provides chapter reading, manga discovery, and information about manga.',
     },
   ],
   /**
@@ -190,7 +205,7 @@ The API is intended for use by a wide range of developers, and it can be consume
     },
     {
       name: 'manga',
-      tags: ['mangadex', 'mangahere'],
+      tags: ['mangadex', 'mangahere', 'mangakakalot'],
     },
     {
       name: 'meta',
@@ -2086,6 +2101,199 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
             source: `curl 'https://consumet-api.herokuapp.com/manga/mangahere/read?chapterId=tomodachi_game/c102'`,
           },
         ],
+      },
+    },
+    '/manga/mangakakalot/{query}': {
+      summary: 'Get manga search',
+      get: {
+        tags: ['mangakakalot'],
+        summary: 'Get manga search',
+        operationId: 'getMangaSearch',
+        parameters: [
+          {
+            name: '{query}',
+            in: 'path',
+            description: "the manga's title. e.g. 'spy x family'",
+            required: true,
+            style: 'path - simple',
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/MangaKakalotSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/manga/mangakakalot/info': {
+      summary: 'Get manga info',
+      get: {
+        tags: ['mangakakalot'],
+        summary: 'Get manga info',
+        operationId: 'getMangaInfo',
+        parameters: [
+          {
+            name: 'id',
+            in: 'query',
+            description: "the manga's id.",
+            required: true,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/MangaKakalotInfo',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/manga/mangakakalot/read': {
+      summary: 'Get manga chapters',
+      get: {
+        tags: ['mangakakalot'],
+        summary: 'Get manga chapters',
+        operationId: 'getMangaChapters',
+        parameters: [
+          {
+            name: 'chapterId',
+            in: 'query',
+            description: "the manga's chapter id.",
+            required: true,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    $ref: '#/components/schemas/MangaKakalotChapter',
+                  },
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
   },

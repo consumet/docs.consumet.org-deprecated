@@ -57,6 +57,13 @@ import {
   MangaHereSearchSchema,
   MangaHereInfoSchema,
 } from './mangahere.schema';
+import {
+  MangaKakalotChapterPageSchema,
+  MangaKakalotChapterSchema,
+  MangaKakalotSearchResultSchema,
+  MangaKakalotSearchSchema,
+  MangaKakalotInfoSchema,
+} from './mangakakalot.schema';
 
 /**
  * Make sure to sort the schemas by the provider name.
@@ -107,4 +114,9 @@ export {
   MangaHereSearchResultSchema,
   MangaHereSearchSchema,
   MangaHereInfoSchema,
+  MangaKakalotChapterPageSchema,
+  MangaKakalotChapterSchema,
+  MangaKakalotSearchResultSchema,
+  MangaKakalotSearchSchema,
+  MangaKakalotInfoSchema,
 };
