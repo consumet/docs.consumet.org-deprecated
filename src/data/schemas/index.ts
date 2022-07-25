@@ -64,6 +64,7 @@ import {
   MangaKakalotSearchSchema,
   MangaKakalotInfoSchema,
 } from './mangakakalot.schema';
+
 import {
   ZoroEpisodeSchema,
   ZoroInfoSchema,
@@ -71,6 +72,7 @@ import {
   ZoroSearchSchema,
   ZoroEpisodeSourceSchema,
 } from './zoro.schema';
+
 /**
  * Make sure to sort the schemas by the provider name.
  */
