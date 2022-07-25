@@ -49,6 +49,11 @@ import {
   MangaKakalotSearchResultSchema,
   MangaKakalotSearchSchema,
   MangaKakalotInfoSchema,
+  ZoroEpisodeSchema,
+  ZoroInfoSchema,
+  ZoroSearchResultSchema,
+  ZoroSearchSchema,
+  ZoroEpisodeSourceSchema,
 } from './schemas';
 
 const openapi = {
@@ -133,6 +138,11 @@ The API is intended for use by a wide range of developers, and it can be consume
       MangaKakalotInfo: MangaKakalotInfoSchema,
       MangaKakalotChapter: MangaKakalotChapterSchema,
       MangaKakalotChapterPage: MangaKakalotChapterPageSchema,
+      ZoroSearch: ZoroSearchSchema,
+      ZoroSearchResult: ZoroSearchResultSchema,
+      ZoroInfo: ZoroInfoSchema,
+      ZoroEpisode: ZoroEpisodeSchema,
+      ZoroEpisodeSource: ZoroEpisodeSourceSchema,
     },
   },
   tags: [
@@ -186,6 +196,11 @@ The API is intended for use by a wide range of developers, and it can be consume
       description:
         'Everything about MangaKakalot provider. This provider is based on [MangaKakalot](https://mangakakalot.com/). It provides chapter reading, manga discovery, and information about manga.',
     },
+    {
+      name: 'zoro',
+      description:
+        'Everything about Zoro.to provider. This provider is based on [Zoro.to](https://zoro.to/). It provides anime streaming, discovery and information about anime.',
+    },
   ],
   /**
    * make sure to sort the tags and names by alphabetical order.
@@ -193,7 +208,7 @@ The API is intended for use by a wide range of developers, and it can be consume
   'x-tagGroups': [
     {
       name: 'anime',
-      tags: ['animepahe', 'gogoanime'],
+      tags: ['animepahe', 'gogoanime', 'zoro'],
     },
     {
       name: 'books',
@@ -2241,6 +2256,206 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
                     type: 'object',
                     $ref: '#/components/schemas/MangaKakalotChapter',
                   },
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/zoro/{query}': {
+      summary: 'Get anime search',
+      get: {
+        tags: ['zoro'],
+        summary: 'Get anime search',
+        operationId: 'getAnimeSearch',
+        parameters: [
+          {
+            name: '{query}',
+            in: 'path',
+            description: "the anime's title. e.g. 'spy x family'",
+            required: true,
+            style: 'path - simple',
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'the page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/ZoroSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/zoro/info': {
+      summary: 'Get anime info',
+      get: {
+        tags: ['zoro'],
+        summary: 'Get anime info',
+        operationId: 'getAnimeInfo',
+        parameters: [
+          {
+            name: 'id',
+            in: 'query',
+            description: "the anime's id.",
+            required: true,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/ZoroInfo',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/zoro/watch': {
+      summary: 'Get anime episode streaming links with subtitles',
+      get: {
+        tags: ['zoro'],
+        summary: 'Get anime streaming links with subtitles',
+        operationId: 'getAnimeStreamingLinks',
+        parameters: [
+          {
+            name: 'episodeId',
+            in: 'query',
+            description: "the anime's id.",
+            required: true,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/ZoroEpisodeSource',
                 },
               },
             },
