@@ -657,7 +657,7 @@ curl "https://consumet-api.herokuapp.com/anime/gogoanime/info/spy-x-family"
         ],
       },
     },
-    '/anime/gogoanime/top-aring': {
+    '/anime/gogoanime/top-airing': {
       summary: 'Get top airing anime',
       get: {
         tags: ['gogoanime'],
