@@ -418,7 +418,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: `curl 'https://consumet-api.herokuapp.com/comics/s?bookTitle=batman&page=1'`,
+            source: `curl 'https://consumet-api.herokuapp.com/books/s?bookTitle=batman&page=1'`,
           },
           {
             lang: 'Node.js',
@@ -428,7 +428,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('https://consumet-api.herokuapp.com/comics/s?bookTitle=batman&page=1');
+  const { data } = get('https://consumet-api.herokuapp.com/books/s?bookTitle=batman&page=1');
   console.log(data)
 }
 
@@ -485,7 +485,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: `curl 'https://consumet-api.herokuapp.com/books/libgen/s/batman'`,
+            source: `curl 'https://consumet-api.herokuapp.com/books/libgen/s?bookTitle=batman&page=1'`,
           },
           {
             lang: 'Node.js',
@@ -495,7 +495,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('https://consumet-api.herokuapp.com/books/libgen/s/batman');
+  const { data } = get('https://consumet-api.herokuapp.com/books/libgen/s?bookTitle=batman&page=1');
   console.log(data)
 }
 
@@ -659,7 +659,7 @@ curl "https://consumet-api.herokuapp.com/anime/gogoanime/info/spy-x-family"
         ],
       },
     },
-    '/anime/gogoanime/top-aring': {
+    '/anime/gogoanime/top-airing': {
       summary: 'Get top airing anime',
       get: {
         tags: ['gogoanime'],
