@@ -207,6 +207,38 @@ const AnilistInfoSchema = {
       readOnly: true,
       description: 'The anime id on MyAnimeList.',
     },
+    trailer: {
+      type: 'object',
+      nullable: true,
+      readOnly: true,
+      description: 'trailer.',
+      properties: {
+        site: {
+          type: 'string',
+          nullable: false,
+          readOnly: true,
+          description: 'The trailer site.',
+        },
+        id: {
+          type: 'string',
+          nullable: false,
+          readOnly: true,
+          description: 'The trailer id.',
+        },
+        thumbnail: {
+          type: 'string',
+          nullable: true,
+          readOnly: true,
+          description: 'The trailer thumbnail url.',
+        },
+      },
+    },
+    cover: {
+      type: 'string',
+      nullable: false,
+      readOnly: true,
+      description: 'The anime cover url.',
+    },
     image: {
       type: 'string',
       nullable: false,
@@ -279,10 +311,151 @@ const AnilistInfoSchema = {
   },
 };
 
+const AnilistTrendingSchema = {
+  type: 'object',
+  properties: {
+    currentPage: {
+      type: 'integer',
+      nullable: false,
+      readOnly: true,
+      description: 'The current page.',
+    },
+    hasNextPage: {
+      type: 'boolean',
+      nullable: false,
+      readOnly: true,
+      description: 'Whether there is a next page.',
+    },
+    results: {
+      type: 'array',
+      description: 'The anime search results.',
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'Anilist id.',
+          },
+          malId: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'MyAnimeList id.',
+          },
+          title: {
+            type: 'object',
+            nullable: false,
+            readOnly: true,
+            description: 'Anilist title.',
+            properties: {
+              romaji: {
+                type: 'string',
+                nullable: true,
+                readOnly: true,
+                description: 'Anilist title romaji.',
+              },
+              english: {
+                type: 'string',
+                nullable: true,
+                readOnly: true,
+                description: 'Anilist title english.',
+              },
+              native: {
+                type: 'string',
+                nullable: true,
+                readOnly: true,
+                description: 'Anilist title native.',
+              },
+              userPreferred: {
+                type: 'string',
+                nullable: true,
+                readOnly: true,
+                description: 'Anilist title user preferred.',
+              },
+            },
+          },
+          image: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'Anilist image url.',
+          },
+          trailer: {
+            type: 'object',
+            nullable: true,
+            readOnly: true,
+            description: 'trailer.',
+            properties: {
+              site: {
+                type: 'string',
+                nullable: false,
+                readOnly: true,
+                description: 'The trailer site.',
+              },
+              id: {
+                type: 'string',
+                nullable: false,
+                readOnly: true,
+                description: 'The trailer id.',
+              },
+              thumbnail: {
+                type: 'string',
+                nullable: true,
+                readOnly: true,
+                description: 'The trailer thumbnail url.',
+              },
+            },
+          },
+          cover: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'cover url.',
+          },
+          rating: {
+            type: 'integer',
+            nullable: true,
+            readOnly: true,
+            description: 'rating.',
+          },
+          releasedDate: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'released date.',
+          },
+          totalEpisodes: {
+            type: 'integer',
+            nullable: true,
+            readOnly: true,
+            description: 'total episodes.',
+          },
+          duration: {
+            type: 'integer',
+            nullable: true,
+            readOnly: true,
+            description: 'duration in minutes',
+          },
+          type: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'type.',
+            enum: ['TV', 'Movie', 'OVA', 'Special', 'ONA', 'Music', 'Unknown'],
+          },
+        },
+      },
+    },
+  },
+};
+
 export {
   AnilistSearchResultSchema,
   AnilistEpisodeSchema,
   AnilistInfoSchema,
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
+  AnilistTrendingSchema,
 };

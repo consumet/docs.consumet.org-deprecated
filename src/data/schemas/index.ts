@@ -49,6 +49,7 @@ import {
   AnilistSearchResultSchema,
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
+  AnilistTrendingSchema,
 } from './anilist.schema';
 import {
   MangaHereChapterPageSchema,
@@ -115,6 +116,7 @@ export {
   AnilistSearchResultSchema,
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
+  AnilistTrendingSchema,
   MangaHereChapterPageSchema,
   MangaHereChapterSchema,
   MangaHereSearchResultSchema,

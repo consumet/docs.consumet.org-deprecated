@@ -39,6 +39,7 @@ import {
   AnilistSearchResultSchema,
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
+  AnilistTrendingSchema,
   MangaHereChapterPageSchema,
   MangaHereChapterSchema,
   MangaHereSearchResultSchema,
@@ -128,6 +129,7 @@ The API is intended for use by a wide range of developers, and it can be consume
       AnilistInfo: AnilistInfoSchema,
       AnilistEpisode: AnilistEpisodeSchema,
       AnilistEpisodeSource: AnilistEpisodeSourceSchema,
+      AnilistTrending: AnilistTrendingSchema,
       MangaHereSearch: MangaHereSearchSchema,
       MangaHereSearchResult: MangaHereSearchResultSchema,
       MangaHereInfo: MangaHereInfoSchema,
@@ -1753,6 +1755,26 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
             required: true,
             style: 'path - simple',
           },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+          {
+            name: 'pagePage',
+            in: 'query',
+            description: 'results per page',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 10,
+            },
+          },
         ],
         responses: {
           '200': {
@@ -1762,6 +1784,49 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/AnilistSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/trending': {
+      summary: 'Get anime trending',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anime trending',
+        operationId: 'getAnimeTrending',
+        parameters: [
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+          {
+            name: 'perPage',
+            in: 'query',
+            description: 'number of results per page',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 10,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistTrending',
                 },
               },
             },
@@ -1791,6 +1856,16 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
             schema: {
               type: 'boolean',
               default: false,
+            },
+          },
+          {
+            name: 'provider',
+            in: 'query',
+            description: 'name of the anime provider to map to. eg. zoro',
+            required: false,
+            schema: {
+              type: 'string',
+              default: 'gogoanime',
             },
           },
         ],
@@ -1854,6 +1929,17 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
             description: "the anime's episode id.",
             required: true,
             style: 'path - simple',
+          },
+          {
+            name: 'provider',
+            in: 'query',
+            description:
+              'name of the anime provider you used to get the episode with the info. eg. zoro',
+            required: false,
+            schema: {
+              type: 'string',
+              default: 'gogoanime',
+            },
           },
         ],
         responses: {
