@@ -1834,6 +1834,49 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
         },
       },
     },
+    '/meta/anilist/popular': {
+      summary: 'Get anime popular',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anime popular',
+        operationId: 'getAnimePopular',
+        parameters: [
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+          {
+            name: 'perPage',
+            in: 'query',
+            description: 'number of results per page',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 10,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistTrending',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     '/meta/anilist/info/{id}': {
       summary: 'Get anime info',
       get: {
