@@ -408,6 +408,12 @@ const AnilistTrendingSchema = {
               },
             },
           },
+          description: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'description.',
+          },
           cover: {
             type: 'string',
             nullable: true,
