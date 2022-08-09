@@ -40,6 +40,7 @@ import {
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
   AnilistTrendingSchema,
+  AnilistAiringScheduleSchema,
   MangaHereChapterPageSchema,
   MangaHereChapterSchema,
   MangaHereSearchResultSchema,
@@ -130,6 +131,7 @@ The API is intended for use by a wide range of developers, and it can be consume
       AnilistEpisode: AnilistEpisodeSchema,
       AnilistEpisodeSource: AnilistEpisodeSourceSchema,
       AnilistTrending: AnilistTrendingSchema,
+      AnilistAiringSchedule: AnilistAiringScheduleSchema,
       MangaHereSearch: MangaHereSearchSchema,
       MangaHereSearchResult: MangaHereSearchResultSchema,
       MangaHereInfo: MangaHereInfoSchema,
@@ -1870,6 +1872,79 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/AnilistTrending',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/airing-schedule': {
+      summary: 'Get anime airing schedule',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anime airing schedule',
+        operationId: 'getAnimeAiringSchedule',
+        parameters: [
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+          {
+            name: 'perPage',
+            in: 'query',
+            description: 'number of results per page',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 10,
+            },
+          },
+          {
+            name: 'weekStart',
+            in: 'query',
+            description: 'start of the day you want to get the schedule for in unix timestamp',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: "The current week monay's timestamp",
+            },
+          },
+          {
+            name: 'weekEnd',
+            in: 'query',
+            description: 'end of the day you want to get the schedule for in unix timestamp',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: "Next week monay's timestamp",
+            },
+          },
+          {
+            name: 'notYetAired',
+            in: 'query',
+            description: 'whether to include not yet aired episodes',
+            required: false,
+            schema: {
+              type: 'boolean',
+              default: false,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistAiringSchedule',
                 },
               },
             },

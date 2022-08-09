@@ -457,6 +457,125 @@ const AnilistTrendingSchema = {
   },
 };
 
+const AnilistAiringScheduleSchema = {
+  properties: {
+    currentPage: {
+      type: 'integer',
+      nullable: false,
+      readOnly: true,
+      description: 'The current page.',
+    },
+    hasNextPage: {
+      type: 'boolean',
+      nullable: false,
+      readOnly: true,
+      description: 'Whether there is a next page.',
+    },
+    results: {
+      type: 'array',
+      description: 'The anime search results.',
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime id.',
+          },
+          malId: {
+            type: 'number',
+            nullable: true,
+            readOnly: true,
+            description: 'MyAnimeList id.',
+          },
+          title: {
+            type: 'object',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime title.',
+            properties: {
+              romaji: {
+                type: 'string',
+                nullable: false,
+                readOnly: true,
+                description: 'The anime title romaji.',
+              },
+              english: {
+                type: 'string',
+                nullable: false,
+                readOnly: true,
+                description: 'The anime title english.',
+              },
+              native: {
+                type: 'string',
+                nullable: false,
+                readOnly: true,
+                description: 'The anime title native.',
+              },
+              userPreferred: {
+                type: 'string',
+                nullable: false,
+                readOnly: true,
+                description: 'The anime title user preferred.',
+              },
+            },
+          },
+          episode: {
+            type: 'integer',
+            nullable: false,
+            readOnly: true,
+            description: 'The episode number.',
+          },
+          airingAt: {
+            type: 'integer',
+            nullable: false,
+            readOnly: true,
+            description: 'The airing date in unix timestamp.',
+          },
+          image: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime image url.',
+          },
+          cover: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'The anime cover url.',
+          },
+          description: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'The anime description.',
+          },
+          rating: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime rating.',
+          },
+          releaseDate: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'The anime release date.',
+          },
+          type: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'The anime type.',
+            enum: ['TV', 'Movie', 'OVA', 'Special', 'ONA', 'Music', 'Unknown'],
+          },
+        },
+      },
+    },
+  },
+};
+
 export {
   AnilistSearchResultSchema,
   AnilistEpisodeSchema,
@@ -464,4 +583,5 @@ export {
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
   AnilistTrendingSchema,
+  AnilistAiringScheduleSchema,
 };
