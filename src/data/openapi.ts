@@ -56,6 +56,7 @@ import {
   ZoroSearchResultSchema,
   ZoroSearchSchema,
   ZoroEpisodeSourceSchema,
+  ZoroRecentEpisodesSchema,
 } from './schemas';
 
 const openapi = {
@@ -147,6 +148,7 @@ The API is intended for use by a wide range of developers, and it can be consume
       ZoroInfo: ZoroInfoSchema,
       ZoroEpisode: ZoroEpisodeSchema,
       ZoroEpisodeSource: ZoroEpisodeSourceSchema,
+      ZoroRecentEpisodes: ZoroRecentEpisodesSchema,
     },
   },
   tags: [
@@ -2548,6 +2550,42 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/ZoroSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/zoro/recent-episodes': {
+      summary: 'Get recent episodes',
+      get: {
+        tags: ['zoro'],
+        summary: 'Get recent episodes',
+        operationId: 'getRecentEpisodes',
+        parameters: [
+          {
+            name: 'page',
+            in: 'query',
+            description: 'the page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    $ref: '#/components/schemas/ZoroRecentEpisodes',
+                  },
                 },
               },
             },

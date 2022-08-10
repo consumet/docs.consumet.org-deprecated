@@ -72,6 +72,7 @@ import {
   ZoroSearchResultSchema,
   ZoroSearchSchema,
   ZoroEpisodeSourceSchema,
+  ZoroRecentEpisodesSchema,
 } from './zoro.schema';
 /**
  * Make sure to sort the schemas by the provider name.
@@ -134,4 +135,5 @@ export {
   ZoroSearchResultSchema,
   ZoroSearchSchema,
   ZoroEpisodeSourceSchema,
+  ZoroRecentEpisodesSchema,
 };
