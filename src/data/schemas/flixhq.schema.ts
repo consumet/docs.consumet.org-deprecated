@@ -50,6 +50,12 @@ const FlixHQSearchResultSchema = {
       readOnly: true,
       description: 'The media image url.',
     },
+    releaseDate: {
+      type: 'string',
+      nullable: true,
+      readOnly: true,
+      description: 'The movie release date.',
+    },
     type: {
       type: 'string',
       nullable: false,
