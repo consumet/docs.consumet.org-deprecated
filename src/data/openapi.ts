@@ -282,7 +282,7 @@ The API is intended for use by a wide range of developers, and it can be consume
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: "curl 'https://consumet-api.herokuapp.com/comics/s?bookTitle=batman&page=1'",
+            source: "curl 'https://consumet-api.herokuapp.com/comics/s?comicTitle=batman&page=1'",
           },
           {
             lang: 'Node.js',
@@ -292,7 +292,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('https://consumet-api.herokuapp.com/comics/s?bookTitle=batman&page=1');
+  const { data } = get('https://consumet-api.herokuapp.com/comics/s?comicTitle=batman&page=1');
   console.log(data)
 }
 
