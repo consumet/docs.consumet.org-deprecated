@@ -49,6 +49,8 @@ import {
   AnilistSearchResultSchema,
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
+  AnilistTrendingSchema,
+  AnilistAiringScheduleSchema,
 } from './anilist.schema';
 import {
   MangaHereChapterPageSchema,
@@ -64,15 +66,21 @@ import {
   MangaKakalotSearchSchema,
   MangaKakalotInfoSchema,
 } from './mangakakalot.schema';
-
 import {
   ZoroEpisodeSchema,
   ZoroInfoSchema,
   ZoroSearchResultSchema,
   ZoroSearchSchema,
   ZoroEpisodeSourceSchema,
+  ZoroRecentEpisodesSchema,
 } from './zoro.schema';
-
+import {
+  EnimeEpisodeSchema,
+  EnimeInfoSchema,
+  EnimeSearchResultSchema,
+  EnimeSearchSchema,
+  EnimeEpisodeSourceSchema,
+} from './enime.schema';
 /**
  * Make sure to sort the schemas by the provider name.
  */
@@ -117,6 +125,8 @@ export {
   AnilistSearchResultSchema,
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
+  AnilistTrendingSchema,
+  AnilistAiringScheduleSchema,
   MangaHereChapterPageSchema,
   MangaHereChapterSchema,
   MangaHereSearchResultSchema,
@@ -132,4 +142,10 @@ export {
   ZoroSearchResultSchema,
   ZoroSearchSchema,
   ZoroEpisodeSourceSchema,
+  ZoroRecentEpisodesSchema,
+  EnimeEpisodeSchema,
+  EnimeInfoSchema,
+  EnimeSearchResultSchema,
+  EnimeSearchSchema,
+  EnimeEpisodeSourceSchema,
 };

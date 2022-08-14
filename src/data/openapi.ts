@@ -39,6 +39,8 @@ import {
   AnilistSearchResultSchema,
   AnilistSearchSchema,
   AnilistEpisodeSourceSchema,
+  AnilistTrendingSchema,
+  AnilistAiringScheduleSchema,
   MangaHereChapterPageSchema,
   MangaHereChapterSchema,
   MangaHereSearchResultSchema,
@@ -54,6 +56,12 @@ import {
   ZoroSearchResultSchema,
   ZoroSearchSchema,
   ZoroEpisodeSourceSchema,
+  ZoroRecentEpisodesSchema,
+  EnimeEpisodeSchema,
+  EnimeEpisodeSourceSchema,
+  EnimeInfoSchema,
+  EnimeSearchResultSchema,
+  EnimeSearchSchema,
 } from './schemas';
 
 const openapi = {
@@ -128,6 +136,8 @@ The API is intended for use by a wide range of developers, and it can be consume
       AnilistInfo: AnilistInfoSchema,
       AnilistEpisode: AnilistEpisodeSchema,
       AnilistEpisodeSource: AnilistEpisodeSourceSchema,
+      AnilistTrending: AnilistTrendingSchema,
+      AnilistAiringSchedule: AnilistAiringScheduleSchema,
       MangaHereSearch: MangaHereSearchSchema,
       MangaHereSearchResult: MangaHereSearchResultSchema,
       MangaHereInfo: MangaHereInfoSchema,
@@ -143,6 +153,12 @@ The API is intended for use by a wide range of developers, and it can be consume
       ZoroInfo: ZoroInfoSchema,
       ZoroEpisode: ZoroEpisodeSchema,
       ZoroEpisodeSource: ZoroEpisodeSourceSchema,
+      ZoroRecentEpisodes: ZoroRecentEpisodesSchema,
+      EnimeSearch: EnimeSearchSchema,
+      EnimeSearchResult: EnimeSearchResultSchema,
+      EnimeInfo: EnimeInfoSchema,
+      EnimeEpisode: EnimeEpisodeSchema,
+      EnimeEpisodeSource: EnimeEpisodeSourceSchema,
     },
   },
   tags: [
@@ -201,6 +217,11 @@ The API is intended for use by a wide range of developers, and it can be consume
       description:
         'Everything about Zoro.to provider. This provider is based on [Zoro.to](https://zoro.to/). It provides anime streaming, discovery and information about anime.',
     },
+    {
+      name: 'enime',
+      description:
+        'Everything about Enime.moe provider. This provider is based on [Enime.moe](https://enime.moe/). It provides anime streaming, discovery and information about anime.',
+    },
   ],
   /**
    * make sure to sort the tags and names by alphabetical order.
@@ -208,7 +229,7 @@ The API is intended for use by a wide range of developers, and it can be consume
   'x-tagGroups': [
     {
       name: 'anime',
-      tags: ['animepahe', 'gogoanime', 'zoro'],
+      tags: ['animepahe', 'enime', 'gogoanime', 'zoro'],
     },
     {
       name: 'books',
@@ -1753,6 +1774,26 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
             required: true,
             style: 'path - simple',
           },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+          {
+            name: 'pagePage',
+            in: 'query',
+            description: 'results per page',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 10,
+            },
+          },
         ],
         responses: {
           '200': {
@@ -1762,6 +1803,385 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/AnilistSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/advanced-search': {
+      summary: 'Get anime Advanced search',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anime Advanced search',
+        operationId: 'getAnimeAdvancedSearch',
+        parameters: [
+          {
+            name: 'query',
+            in: 'query',
+            description: 'search query',
+            required: false,
+            schema: {
+              type: 'string',
+              default: '',
+            },
+          },
+          {
+            name: 'type',
+            in: 'query',
+            description: 'search type',
+            required: false,
+            schema: {
+              type: 'string',
+              default: 'ANIME',
+              enum: ['ANIME', 'MANGA'],
+            },
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'number',
+              default: 1,
+            },
+          },
+          {
+            name: 'perPage',
+            in: 'query',
+            description: 'results per page',
+            required: false,
+            schema: {
+              type: 'number',
+              default: 20,
+            },
+          },
+          {
+            name: 'format',
+            in: 'query',
+            description: 'format',
+            required: false,
+            schema: {
+              type: 'string',
+              enum: ['TV', 'TV_SHORT', 'OVA', 'ONA', 'MOVIE', 'SPECIAL', 'MUSIC'],
+            },
+          },
+          {
+            name: 'sort',
+            in: 'query',
+            description:
+              'sort. e.g. `/anilist/advanced-search?sort=["POPULARITY_DESC","UPDATED_AT_DESC"]`',
+            required: false,
+            schema: {
+              type: 'array',
+              items: {
+                type: 'string',
+                enum: [
+                  'POPULARITY_DESC',
+                  'TRENDING_DESC',
+                  'UPDATED_AT_DESC',
+                  'START_DATE_DESC',
+                  'START_DATE_ASC',
+                  'END_DATE_DESC',
+                  'END_DATE_ASC',
+                  'RATING_DESC',
+                  'RATING_ASC',
+                  'TITLE_ASC',
+                  'TITLE_DESC',
+                ],
+              },
+              default: ['POPULARITY_DESC', 'SCORE_DESC'],
+            },
+          },
+          {
+            name: 'genres',
+            in: 'query',
+            description:
+              'filter by genres. e.g. `/anilist/advanced-search?genres=["Action","Adventure"]`',
+            required: false,
+            schema: {
+              type: 'array',
+              items: {
+                type: 'string',
+                enum: [
+                  'Action',
+                  'Adventure',
+                  'Cars',
+                  'Comedy',
+                  'Drama',
+                  'Fantasy',
+                  'Horror',
+                  'Mahou Shoujo',
+                  'Mecha',
+                  'Music',
+                  'Mystery',
+                  'Psychological',
+                  'Romance',
+                  'Sci-Fi',
+                  'Slice of Life',
+                  'Sports',
+                  'Supernatural',
+                  'Thriller',
+                ],
+              },
+            },
+          },
+          {
+            name: 'id',
+            in: 'query',
+            description: 'anilist id',
+            required: false,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/genre': {
+      summary: 'Get anime genres',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anime genres',
+        operationId: 'getAnimeGenres',
+        parameters: [
+          {
+            name: 'genres',
+            in: 'query',
+            description: 'filter by genres. e.g. `/anilist/genre?genres=["Action","Adventure"]`',
+            required: true,
+            schema: {
+              type: 'array',
+              items: {
+                type: 'string',
+                enum: [
+                  'Action',
+                  'Adventure',
+                  'Cars',
+                  'Comedy',
+                  'Drama',
+                  'Fantasy',
+                  'Horror',
+                  'Mahou Shoujo',
+                  'Mecha',
+                  'Music',
+                  'Mystery',
+                  'Psychological',
+                  'Romance',
+                  'Sci-Fi',
+                  'Slice of Life',
+                  'Sports',
+                  'Supernatural',
+                  'Thriller',
+                ],
+              },
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistTrending',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/random-anime': {
+      summary: 'Get random anime',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get random anime',
+        operationId: 'getRandomAnime',
+        parameters: [],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistInfo',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/trending': {
+      summary: 'Get anime trending',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anime trending',
+        operationId: 'getAnimeTrending',
+        parameters: [
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+          {
+            name: 'perPage',
+            in: 'query',
+            description: 'number of results per page',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 10,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistTrending',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/popular': {
+      summary: 'Get anime popular',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anime popular',
+        operationId: 'getAnimePopular',
+        parameters: [
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+          {
+            name: 'perPage',
+            in: 'query',
+            description: 'number of results per page',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 10,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistTrending',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/airing-schedule': {
+      summary: 'Get anime airing schedule',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get anime airing schedule',
+        operationId: 'getAnimeAiringSchedule',
+        parameters: [
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+          {
+            name: 'perPage',
+            in: 'query',
+            description: 'number of results per page',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 10,
+            },
+          },
+          {
+            name: 'weekStart',
+            in: 'query',
+            description: 'start of the day you want to get the schedule for in unix timestamp',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: "The current week monay's timestamp",
+            },
+          },
+          {
+            name: 'weekEnd',
+            in: 'query',
+            description: 'end of the day you want to get the schedule for in unix timestamp',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: "Next week monay's timestamp",
+            },
+          },
+          {
+            name: 'notYetAired',
+            in: 'query',
+            description: 'whether to include not yet aired episodes',
+            required: false,
+            schema: {
+              type: 'boolean',
+              default: false,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistAiringSchedule',
                 },
               },
             },
@@ -1791,6 +2211,17 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
             schema: {
               type: 'boolean',
               default: false,
+            },
+          },
+          {
+            name: 'provider',
+            in: 'query',
+            description:
+              'name of the anime provider to map to. eg. `zoro`. NOTE: if you choose `zoro`, you must also add the provider parameter on the /anilist/watch endpoint',
+            required: false,
+            schema: {
+              type: 'string',
+              default: 'gogoanime',
             },
           },
         ],
@@ -1854,6 +2285,17 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
             description: "the anime's episode id.",
             required: true,
             style: 'path - simple',
+          },
+          {
+            name: 'provider',
+            in: 'query',
+            description:
+              'name of the anime provider you used to get the episode with the info. eg. zoro',
+            required: false,
+            schema: {
+              type: 'string',
+              default: 'gogoanime',
+            },
           },
         ],
         responses: {
@@ -2351,6 +2793,42 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
         },
       },
     },
+    '/anime/zoro/recent-episodes': {
+      summary: 'Get recent episodes',
+      get: {
+        tags: ['zoro'],
+        summary: 'Get recent episodes',
+        operationId: 'getRecentEpisodes',
+        parameters: [
+          {
+            name: 'page',
+            in: 'query',
+            description: 'the page number',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    $ref: '#/components/schemas/ZoroRecentEpisodes',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     '/anime/zoro/info': {
       summary: 'Get anime info',
       get: {
@@ -2504,6 +2982,168 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
                       description: 'Error message',
                     },
                   },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/enime/{query}': {
+      summary: 'Get anime search',
+      get: {
+        tags: ['enime'],
+        summary: 'Get anime search',
+        operationId: 'getAnimeSearch',
+        parameters: [
+          {
+            name: '{query}',
+            in: 'path',
+            description: "the anime's title. e.g. 'spy x family'",
+            required: true,
+            style: 'path - simple',
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'the page number',
+            required: false,
+            schema: {
+              type: 'number',
+              default: 1,
+            },
+          },
+          {
+            name: 'perPage',
+            in: 'query',
+            description: 'the number of results per page',
+            required: false,
+            schema: {
+              type: 'number',
+              default: 20,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/EnimeSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/enime/info': {
+      summary: 'Get anime info',
+      get: {
+        tags: ['enime'],
+        summary: 'Get anime info',
+        operationId: 'getAnimeInfo',
+        parameters: [
+          {
+            name: 'id',
+            in: 'query',
+            description: "the anime's id. e.g. `/anime/enime/info?id=1`",
+            required: true,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/EnimeInfo',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Bad Request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '404': {
+            description: 'Not Found',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      description: 'Error message',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/anime/enime/watch': {
+      summary: 'Get anime episode streaming links',
+      get: {
+        tags: ['enime'],
+        summary: 'Get anime streaming links',
+        operationId: 'getAnimeStreamingLinks',
+        parameters: [
+          {
+            name: 'episodeId',
+            in: 'query',
+            description: "the episode's id. e.g. `/anime/enime/watch?episodeId=12321dqw`",
+            required: true,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/EnimeEpisodeSource',
                 },
               },
             },

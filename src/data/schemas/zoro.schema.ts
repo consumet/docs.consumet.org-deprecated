@@ -211,10 +211,68 @@ const ZoroInfoSchema = {
   },
 };
 
+const ZoroRecentEpisodesSchema = {
+  type: 'object',
+  properties: {
+    currentPage: {
+      type: 'integer',
+      nullable: false,
+      readOnly: true,
+      description: 'The current page.',
+    },
+    hasNextPage: {
+      type: 'boolean',
+      nullable: false,
+      readOnly: true,
+      description: 'Whether there is a next page.',
+    },
+    results: {
+      type: 'array',
+      description: 'The recent episodes.',
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime id.',
+          },
+          title: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime title.',
+          },
+          image: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime image url.',
+          },
+          url: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime url.',
+          },
+          episode: {
+            type: 'integer',
+            nullable: false,
+            readOnly: true,
+            description: 'The episode number.',
+          },
+        },
+      },
+    },
+  },
+};
+
 export {
   ZoroSearchResultSchema,
   ZoroEpisodeSchema,
   ZoroInfoSchema,
   ZoroSearchSchema,
   ZoroEpisodeSourceSchema,
+  ZoroRecentEpisodesSchema,
 };
