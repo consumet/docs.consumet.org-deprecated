@@ -438,6 +438,15 @@ const AnilistTrendingSchema = {
             readOnly: true,
             description: 'total episodes.',
           },
+          genres: {
+            type: 'array',
+            nullable: true,
+            readOnly: true,
+            description: 'genres.',
+            items: {
+              type: 'string',
+            },
+          },
           duration: {
             type: 'integer',
             nullable: true,

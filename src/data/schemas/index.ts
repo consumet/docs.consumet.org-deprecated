@@ -74,6 +74,13 @@ import {
   ZoroEpisodeSourceSchema,
   ZoroRecentEpisodesSchema,
 } from './zoro.schema';
+import {
+  EnimeEpisodeSchema,
+  EnimeInfoSchema,
+  EnimeSearchResultSchema,
+  EnimeSearchSchema,
+  EnimeEpisodeSourceSchema,
+} from './enime.schema';
 /**
  * Make sure to sort the schemas by the provider name.
  */
@@ -136,4 +143,9 @@ export {
   ZoroSearchSchema,
   ZoroEpisodeSourceSchema,
   ZoroRecentEpisodesSchema,
+  EnimeEpisodeSchema,
+  EnimeInfoSchema,
+  EnimeSearchResultSchema,
+  EnimeSearchSchema,
+  EnimeEpisodeSourceSchema,
 };
