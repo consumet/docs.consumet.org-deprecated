@@ -585,6 +585,118 @@ const AnilistAiringScheduleSchema = {
   },
 };
 
+const AnilistRecentEpisodesSchema = {
+  properties: {
+    currentPage: {
+      type: 'number',
+      nullable: false,
+      readOnly: true,
+      description: 'The current page.',
+    },
+    hasNextPage: {
+      type: 'boolean',
+      nullable: false,
+      readOnly: true,
+      description: 'Whether there is a next page.',
+    },
+    totalPages: {
+      type: 'number',
+      nullable: false,
+      readOnly: true,
+      description: 'The total pages.',
+    },
+    totalResults: {
+      type: 'number',
+      nullable: false,
+      readOnly: true,
+      description: 'The total results.',
+    },
+    results: {
+      type: 'array',
+      description: 'The anime search results.',
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime id.',
+          },
+          malId: {
+            type: 'number',
+            nullable: true,
+            readOnly: true,
+            description: 'MyAnimeList id.',
+          },
+          title: {
+            type: 'object',
+            nullable: false,
+            readOnly: true,
+            description: 'The anime title.',
+            properties: {
+              romaji: {
+                type: 'string',
+                nullable: true,
+                readOnly: true,
+                description: 'The anime title romaji.',
+              },
+              english: {
+                type: 'string',
+                nullable: true,
+                readOnly: true,
+                description: 'The anime title english.',
+              },
+              native: {
+                type: 'string',
+                nullable: true,
+                readOnly: true,
+                description: 'The anime title native.',
+              },
+              userPreferred: {
+                type: 'string',
+                nullable: true,
+                readOnly: true,
+                description: 'The anime title user preferred.',
+              },
+            },
+          },
+          episodeId: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The episode id.',
+          },
+          episodeTitle: {
+            type: 'string',
+            nullable: false,
+            readOnly: true,
+            description: 'The episode title.',
+          },
+          episodeNumber: {
+            type: 'integer',
+            nullable: false,
+            readOnly: true,
+            description: 'The episode number.',
+          },
+          image: {
+            type: 'string',
+            nullable: true,
+            readOnly: true,
+            description: 'The anime image url.',
+          },
+          rating: {
+            type: 'number',
+            nullable: true,
+            readOnly: true,
+            description: 'The anime rating.',
+          },
+        },
+      },
+    },
+  },
+};
+
 export {
   AnilistSearchResultSchema,
   AnilistEpisodeSchema,
@@ -593,4 +705,5 @@ export {
   AnilistEpisodeSourceSchema,
   AnilistTrendingSchema,
   AnilistAiringScheduleSchema,
+  AnilistRecentEpisodesSchema,
 };

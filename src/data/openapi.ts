@@ -41,6 +41,7 @@ import {
   AnilistEpisodeSourceSchema,
   AnilistTrendingSchema,
   AnilistAiringScheduleSchema,
+  AnilistRecentEpisodesSchema,
   MangaHereChapterPageSchema,
   MangaHereChapterSchema,
   MangaHereSearchResultSchema,
@@ -138,6 +139,7 @@ The API is intended for use by a wide range of developers, and it can be consume
       AnilistEpisodeSource: AnilistEpisodeSourceSchema,
       AnilistTrending: AnilistTrendingSchema,
       AnilistAiringSchedule: AnilistAiringScheduleSchema,
+      AnilistRecentEpisodes: AnilistRecentEpisodesSchema,
       MangaHereSearch: MangaHereSearchSchema,
       MangaHereSearchResult: MangaHereSearchResultSchema,
       MangaHereInfo: MangaHereInfoSchema,
@@ -1803,6 +1805,60 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
                 schema: {
                   type: 'object',
                   $ref: '#/components/schemas/AnilistSearch',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/meta/anilist/recent-episodes': {
+      summary: 'Get recent anime episodes',
+      get: {
+        tags: ['anilist'],
+        summary: 'Get recent anime episodes',
+        operationId: 'getRecentAnimeEpisodes',
+        parameters: [
+          {
+            name: 'provider',
+            in: 'query',
+            description: 'provider e.g. `zoro`',
+            required: false,
+            schema: {
+              type: 'string',
+              default: 'gogoanime',
+              enum: ['gogoanime', 'zoro'],
+            },
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'page number',
+            required: false,
+            schema: {
+              type: 'number',
+              default: 1,
+            },
+          },
+          {
+            name: 'perPage',
+            in: 'query',
+            description: 'results per page',
+            required: false,
+            schema: {
+              type: 'number',
+              default: 15,
+            },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/AnilistRecentEpisodes',
                 },
               },
             },
