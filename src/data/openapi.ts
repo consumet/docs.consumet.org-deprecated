@@ -2006,6 +2006,25 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
               type: 'string',
             },
           },
+          {
+            name: 'year',
+            in: 'query',
+            description: 'year of release e.g. `2022`',
+            required: false,
+            schema: {
+              type: 'number',
+            },
+          },
+          {
+            name: 'status',
+            in: 'query',
+            description: 'status',
+            required: false,
+            schema: {
+              type: 'string',
+              enum: ['RELEASING', 'NOT_YET_RELEASED', 'FINISHED', 'CANCELLED', 'HIATUS'],
+            },
+          },
         ],
         responses: {
           '200': {
