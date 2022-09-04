@@ -1915,6 +1915,16 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
             },
           },
           {
+            name: 'season',
+            in: 'query',
+            description: 'season',
+            required: false,
+            schema: {
+              type: 'string',
+              enum: ['WINTER', 'SPRING', 'SUMMER', 'FALL'],
+            },
+          },
+          {
             name: 'format',
             in: 'query',
             description: 'format',
@@ -2234,21 +2244,41 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
           {
             name: 'weekStart',
             in: 'query',
-            description: 'start of the day you want to get the schedule for in unix timestamp',
+            description:
+              ' Filter by the start of the week. you can use either the number or the string',
             required: false,
             schema: {
-              type: 'integer',
-              default: "The current week monay's timestamp",
+              type: 'integer or string',
+              default: 'todays date',
+              enum: [
+                'Saturday = 0',
+                'Sunday = 1',
+                'Monday = 2',
+                'Tuesday = 3',
+                'Wednesday = 4',
+                'Thursday = 5',
+                'Friday = 6',
+              ],
             },
           },
           {
             name: 'weekEnd',
             in: 'query',
-            description: 'end of the day you want to get the schedule for in unix timestamp',
+            description:
+              'Filter by the end of the week. you can use either the number or the string',
             required: false,
             schema: {
-              type: 'integer',
-              default: "Next week monay's timestamp",
+              type: 'integer or string',
+              default: 'todays date + 7 days',
+              enum: [
+                'Saturday = 0',
+                'Sunday = 1',
+                'Monday = 2',
+                'Tuesday = 3',
+                'Wednesday = 4',
+                'Thursday = 5',
+                'Friday = 6',
+              ],
             },
           },
           {
