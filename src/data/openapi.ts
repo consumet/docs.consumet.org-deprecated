@@ -96,7 +96,7 @@ The API is intended for use by a wide range of developers, and it can be consume
       altText: 'Consumet Logo',
     },
   },
-  servers: [{ url: 'https://consumet-api.herokuapp.com' }], // we will use this for now (we're poor :()
+  servers: [{ url: 'https://api.consumet.org' }], // we need your support to keep this server running :)
   components: {
     schemas: {
       Book: bookSchema,
@@ -305,7 +305,7 @@ The API is intended for use by a wide range of developers, and it can be consume
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: "curl 'https://consumet-api.herokuapp.com/comics/s?comicTitle=batman&page=1'",
+            source: "curl 'https://api.consumet.org/comics/s?comicTitle=batman&page=1'",
           },
           {
             lang: 'Node.js',
@@ -315,7 +315,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('https://consumet-api.herokuapp.com/comics/s?comicTitle=batman&page=1');
+  const { data } = get('https://api.consumet.org/comics/s?comicTitle=batman&page=1');
   console.log(data)
 }
 
@@ -371,7 +371,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: "curl 'https://consumet-api.herokuapp.com/comics/s?comicTitle=batman&page=1'",
+            source: "curl 'https://api.consumet.org/comics/s?comicTitle=batman&page=1'",
           },
           {
             lang: 'Node.js',
@@ -381,7 +381,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('https://consumet-api.herokuapp.com/comics/s?comicTitle=batman&page=1');
+  const { data } = get('https://api.consumet.org/comics/s?comicTitle=batman&page=1');
   console.log(data)
 }
 
@@ -439,7 +439,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: `curl 'https://consumet-api.herokuapp.com/books/s?bookTitle=batman&page=1'`,
+            source: `curl 'https://api.consumet.org/books/s?bookTitle=batman&page=1'`,
           },
           {
             lang: 'Node.js',
@@ -449,7 +449,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('https://consumet-api.herokuapp.com/books/s?bookTitle=batman&page=1');
+  const { data } = get('https://api.consumet.org/books/s?bookTitle=batman&page=1');
   console.log(data)
 }
 
@@ -506,7 +506,7 @@ run();
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: `curl 'https://consumet-api.herokuapp.com/books/libgen/s?bookTitle=batman&page=1'`,
+            source: `curl 'https://api.consumet.org/books/libgen/s?bookTitle=batman&page=1'`,
           },
           {
             lang: 'Node.js',
@@ -516,7 +516,7 @@ import axios from 'axois'
 const get = axois.get;
 
 const run = async () => {
-  const { data } = get('https://consumet-api.herokuapp.com/books/libgen/s?bookTitle=batman&page=1');
+  const { data } = get('https://api.consumet.org/books/libgen/s?bookTitle=batman&page=1');
   console.log(data)
 }
 
@@ -575,7 +575,7 @@ import requests
 import json
 
 animeTitle = "One piece"
-url = f'https://consumet-api.herokuapp.com/anime/gogoanime/{animeTitle}'
+url = f'https://api.consumet.org/anime/gogoanime/{animeTitle}'
 params = {
  'page': 1
 }
@@ -588,7 +588,7 @@ print(data)
           {
             lang: 'curl',
             source: `
-curl "https://consumet-api.herokuapp.com/anime/gogoanime/Naruto?page=2"
+curl "https://api.consumet.org/anime/gogoanime/Naruto?page=2"
 				`,
           },
         ],
@@ -665,7 +665,7 @@ import requests
 import json
 
 animeId = "spy-x-family"
-url = f'https://consumet-api.herokuapp.com/anime/gogoanime/info/{animeId}'
+url = f'https://api.consumet.org/anime/gogoanime/info/{animeId}'
 response = requests.get(url)
 data = response.json()
 print(data)
@@ -674,7 +674,7 @@ print(data)
           {
             lang: 'curl',
             source: `
-curl "https://consumet-api.herokuapp.com/anime/gogoanime/info/spy-x-family"
+curl "https://api.consumet.org/anime/gogoanime/info/spy-x-family"
 `,
           },
         ],
@@ -874,7 +874,7 @@ import requests
 import json
 
 episodeId = "spy-x-family-episode-1"
-url = f'https://consumet-api.herokuapp.com/anime/gogoanime/watch/{episodeId}'
+url = f'https://api.consumet.org/anime/gogoanime/watch/{episodeId}'
 params = {
 	 'server': 'gogocdn'
 }
@@ -886,7 +886,7 @@ print(data)
           {
             lang: 'curl',
             source: `
-curl "https://consumet-api.herokuapp.com/anime/gogoanime/watch/spy-x-family-episode-1?server=gogocdn"
+curl "https://api.consumet.org/anime/gogoanime/watch/spy-x-family-episode-1?server=gogocdn"
 				`,
           },
         ],
@@ -1005,7 +1005,7 @@ curl "https://consumet-api.herokuapp.com/anime/gogoanime/watch/spy-x-family-epis
           {
             lang: 'curl',
             source: `
-curl "https://consumet-api.herokuapp.com/movies/flixhq/Vincenzo"
+curl "https://api.consumet.org/movies/flixhq/Vincenzo"
 				`,
           },
         ],
@@ -1227,7 +1227,7 @@ curl "https://consumet-api.herokuapp.com/movies/flixhq/Vincenzo"
           {
             lang: 'curl',
             source: `
-curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/slime"
+curl "https://api.consumet.org/light-novels/readlightnovels/slime"
               `,
           },
         ],
@@ -1327,7 +1327,7 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/slime"
           {
             lang: 'curl',
             source: `
-curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/info?id=youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e"
+curl "https://api.consumet.org/light-novels/readlightnovels/info?id=youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e"
               `,
           },
         ],
@@ -1415,7 +1415,7 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/info?id=yo
           {
             lang: 'curl',
             source: `
-curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapterId=youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e/volume-2-chapter-3-the-unexpected-witness-part-3"
+curl "https://api.consumet.org/light-novels/readlightnovels/read?chapterId=youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e/volume-2-chapter-3-the-unexpected-witness-part-3"
               `,
           },
         ],
@@ -2584,7 +2584,7 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: `curl "https://consumet-api.herokuapp.com/manga/mangahere/info?id=tomodachi_game"`,
+            source: `curl "https://api.consumet.org/manga/mangahere/info?id=tomodachi_game"`,
           },
         ],
       },
@@ -2673,7 +2673,7 @@ curl "https://consumet-api.herokuapp.com/light-novels/readlightnovels/read?chapt
         'x-codeSamples': [
           {
             lang: 'curl',
-            source: `curl 'https://consumet-api.herokuapp.com/manga/mangahere/read?chapterId=tomodachi_game/c102'`,
+            source: `curl 'https://api.consumet.org/manga/mangahere/read?chapterId=tomodachi_game/c102'`,
           },
         ],
       },
