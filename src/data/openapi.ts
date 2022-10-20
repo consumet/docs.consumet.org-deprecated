@@ -192,7 +192,7 @@ The API is intended for use by a wide range of developers, and it can be consume
     {
       name: 'mangadex',
       description:
-        'Everything about MangDex provider. This provider is based on [MangDex](https://mangadex.org/). It provides chapter reading, discovery, and information about manga.',
+        'Everything about MangaDex provider. This provider is based on [MangaDex](https://mangadex.org/). It provides chapter reading, discovery, and information about manga.',
     },
     {
       name: 'animepahe',
